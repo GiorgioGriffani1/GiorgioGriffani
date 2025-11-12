@@ -1,94 +1,168 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8">
-  <title>Il mio CV - Giorgio</title>
-  <style>
-    body {
-      margin: 0;
-      background: #f2f2f2;
-      font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giorgio Griffani | Event Specialist</title>
+    <style>
+        :root {
+            --primary-color: #0077b5; /* Blu moderno per l'accento */
+            --text-color: #333;
+            --background-color: #f7f7f7;
+            --card-color: #ffffff;
+            --shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
 
-    .envelope {
-      width: 300px;
-      height: 200px;
-      background: #d63031;
-      position: relative;
-      border-radius: 8px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-      cursor: pointer;
-      overflow: hidden;
-      transition: all 0.5s ease;
-    }
+        body { 
+            font-family: 'Helvetica Neue', Arial, sans-serif; 
+            line-height: 1.6; 
+            max-width: 900px; 
+            margin: 40px auto; 
+            padding: 0 20px; 
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+        
+        header { 
+            text-align: center; 
+            padding: 40px 0 20px; 
+            background-color: var(--card-color);
+            border-radius: 10px 10px 0 0;
+            box-shadow: var(--shadow);
+        }
+        
+        h1 { 
+            margin-top: 0; 
+            font-size: 3em; 
+            color: var(--primary-color); 
+            letter-spacing: -1px;
+        }
+        
+        h2 { 
+            color: var(--primary-color); 
+            border-bottom: 3px solid #eee; 
+            padding-bottom: 10px; 
+            margin-top: 40px; 
+            font-weight: 300;
+        }
+        
+        p.slogan {
+            font-size: 1.2em;
+            color: #666;
+            margin-bottom: 0;
+        }
 
-    .envelope::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 50%;
-      background: #c0392b;
-      clip-path: polygon(0 0, 100% 0, 50% 100%);
-      transition: transform 0.5s ease;
-      z-index: 2;
-    }
+        section { 
+            background-color: var(--card-color); 
+            padding: 30px; 
+            margin-bottom: 20px; 
+            border-radius: 8px; 
+            box-shadow: var(--shadow); 
+        }
+        
+        .item-title { 
+            display: block; 
+            font-size: 1.2em; 
+            font-weight: bold;
+            color: #444;
+        }
+        
+        .meta-info {
+            font-style: italic;
+            color: #888;
+            margin-bottom: 5px;
+        }
 
-    .cv {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: white;
-      padding: 20px;
-      box-sizing: border-box;
-      transition: top 0.5s ease;
-      z-index: 1;
-      overflow-y: auto;
-    }
-
-    .envelope:hover::before {
-      transform: translateY(-100%);
-    }
-
-    .envelope:hover .cv {
-      top: 0;
-    }
-
-    h1 {
-      margin-top: 0;
-      color: #2d3436;
-    }
-
-    p {
-      margin: 5px 0;
-      font-size: 14px;
-    }
-  </style>
+        a { 
+            color: var(--primary-color); 
+            text-decoration: none; 
+            transition: color 0.3s;
+        }
+        
+        a:hover { 
+            color: #005f99; 
+            text-decoration: underline; 
+        }
+        
+        footer { 
+            text-align: center; 
+            padding: 20px 0; 
+            font-size: 0.8em; 
+            color: #999; 
+        }
+    </style>
 </head>
 <body>
 
-<div class="envelope">
-  <div class="cv">
-    <h1>Giorgio Rossi</h1>
-    <p><strong>Email:</strong> giorgio@email.com</p>
-    <p><strong>Telefono:</strong> +39 333 1234567</p>
-    <p><strong>Ruolo:</strong> Project Manager Eventi</p>
-    <p><strong>Esperienze:</strong></p>
-    <ul>
-      <li>2022–oggi – Event Manager freelance</li>
-      <li>2018–2022 – PM @ Agenzia XYZ</li>
-      <li>2010–2018 – Capo scout Agesci</li>
-    </ul>
-    <p><strong>Competenze:</strong> Team building, Escape Room, Produzione Eventi, Creatività</p>
-  </div>
-</div>
+    <header>
+        <h1>GIORGIO GRIFFANI</h1>
+        <p class="slogan">
+            **Event Specialist | Creazione di Esperienze Personalizzate**
+        </p>
+    </header>
+
+    <section id="riassunto">
+        <h2>Chi Sono e Cosa Faccio</h2>
+        <p>
+            Sono un esperto di eventi con una profonda specializzazione nella creazione di format personalizzati. Il mio obiettivo è trasformare il messaggio del cliente in un'esperienza memorabile e mirata, garantendo che ogni partecipante riceva esattamente il messaggio desiderato. Lavoro per garantire che ogni evento non sia solo un'occasione, ma uno strumento strategico di comunicazione.
+        </p>
+    </section>
+
+    <section id="competenze">
+        <h2>Le Mie Competenze Chiave</h2>
+        <p>
+            **[ELENCO DELLE TUE COMPETENZE CHIAVE, ES. Strategia Eventi, Logistica, Negoziazione Fornitori, Comunicazione, Digital Marketing, Team Management.]**
+        </p>
+    </section>
+
+    <section id="progetti">
+        <h2>Progetti Realizzati (Portfolio)</h2>
+        <p>
+            Questa sezione è dedicata ai progetti di cui sono più orgoglioso.
+        </p>
+        <div class="project-item">
+            <span class="item-title">**[Nome del Progetto 1]**</span>
+            <p class="meta-info">[Cliente/Settore] | [Anno]</p>
+            <p>Descrizione concisa: L'obiettivo, la mia strategia e il risultato raggiunto per il cliente.</p>
+            </div>
+        <div class="project-item">
+            <span class="item-title">**[Nome del Progetto 2]**</span>
+            <p class="meta-info">[Cliente/Settore] | [Anno]</p>
+            <p>Descrizione concisa del ruolo, delle responsabilità e dei risultati principali ottenuti.</p>
+        </div>
+        </section>
+
+    <section id="esperienze">
+        <h2>Esperienza Professionale</h2>
+        <div class="experience-item">
+            <span class="item-title">[Posizione più Recente]</span>
+            <p class="meta-info">[Azienda] | [Periodo]</p>
+            <p>Descrizione concisa del ruolo, delle responsabilità e dei risultati principali ottenuti.</p>
+        </div>
+        </section>
+
+    <section id="istruzione">
+        <h2>Istruzione</h2>
+        <div class="education-item">
+            <span class="item-title">[Titolo di Studio]</span>
+            <p class="meta-info">[Università/Istituto] | [Anno di Conseguimento]</p>
+        </div>
+        </section>
+
+    <section id="contatti">
+        <h2>Contattami</h2>
+        <p>Sono disponibile per nuove opportunità e collaborazioni. Scrivimi o chiamami:</p>
+        <ul>
+            <li>Email: <a href="mailto:LA_TUA_EMAIL">**[INSERISCI QUI LA TUA EMAIL]**</a></li>
+            <li>Telefono: <a href="tel:IL_TUO_NUMERO">**[INSERISCI QUI IL TUO NUMERO DI TELEFONO]**</a></li>
+            <li>LinkedIn: <a href="https://www.linkedin.com/in/giorgio-griffani-6590bb209/" target="_blank">Il mio Profilo LinkedIn</a></li>
+            <li>Instagram: <a href="**[LINK AL TUO PROFILO INSTAGRAM]**" target="_blank">Il mio Profilo Instagram</a></li>
+        </ul>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Giorgio Griffani. Event Specialist.</p>
+    </footer>
 
 </body>
 </html>
