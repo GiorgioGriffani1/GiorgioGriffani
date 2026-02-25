@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SunnyWay – Trova il tuo Team Building</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sun: #F5A623;
+    --sun-light: #FFD98A;
+    --deep: #1A1A2E;
+    --mid: #2D2D4E;
+    --card: #ffffff;
+    --text: #1A1A2E;
+    --muted: #7a7a9a;
+    --accent: #E8521A;
+    --radius: 20px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: linear-gradient(135deg, #FFF9EF 0%, #FFF3DC 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .widget {
+    width: 100%;
+    max-width: 680px;
+    background: white;
+    border-radius: 32px;
+    box-shadow: 0 30px 80px rgba(26,26,46,0.15), 0 0 0 1px rgba(245,166,35,0.15);
+    overflow: hidden;
+    position: relative;
+  }
+  .header {
+    background: linear-gradient(135deg, var(--deep) 0%, #2e2e5a 100%);
+    padding: 36px 40px 28px;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '☀';
+    font-size: 200px;
+    position: absolute;
+    right: -40px;
+    top: -60px;
+    opacity: 0.06;
+    line-height: 1;
+  }
+  .brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--sun);
+    margin-bottom: 10px;
+  }
+  .header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 900;
+    color: white;
+    line-height: 1.2;
+  }
+  .header h1 span { color: var(--sun); }
+  .progress-wrap { padding: 20px 40px 0; }
+  .progress-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+  .progress-bar {
+    height: 6px;
+    background: #f0f0f8;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--sun), var(--accent));
+    border-radius: 10px;
+    transition: width 0.5s cubic-bezier(.4,0,.2,1);
+  }
+  .body { padding: 28px 40px 36px; }
+  .question-block { animation: fadeSlide 0.4s ease forwards; }
+  @keyframes fadeSlide {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .q-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--sun);
+    margin-bottom: 10px;
+  }
+  .q-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.35;
+    margin-bottom: 24px;
+  }
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  .option {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 18px;
+    border: 2px solid #eeeef6;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: white;
+    text-align: left;
+    width: 100%;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    color: var(--text);
+  }
+  .option:hover { border-color: var(--sun); background: #FFFBF0; transform: translateX(4px); }
+  .option.selected { border-color: var(--sun); background: linear-gradient(90deg, #FFFBF0, #FFF3DC); font-weight: 500; }
+  .option-icon { font-size: 22px; flex-shrink: 0; width: 36px; text-align: center; }
+  .nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 28px;
+    gap: 12px;
+  }
+  .btn {
+    padding: 13px 28px;
+    border-radius: 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s ease;
+  }
+  .btn-back { background: #f5f5fc; color: var(--muted); }
+  .btn-back:hover { background: #eeeef8; }
+  .btn-next {
+    background: linear-gradient(135deg, var(--sun), var(--accent));
+    color: white;
+    flex: 1;
+    box-shadow: 0 6px 20px rgba(245,166,35,0.35);
+  }
+  .btn-next:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(245,166,35,0.4); }
+  .btn-next:disabled { opacity: 0.4; cursor: not-allowed; transform: none; box-shadow: none; }
+  .result { animation: fadeSlide 0.5s ease forwards; }
+  .result-tag {
+    display: inline-block;
+    background: var(--sun-light);
+    color: #7a4800;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 30px;
+    margin-bottom: 14px;
+  }
+  .result h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 30px;
+    font-weight: 900;
+    color: var(--text);
+    margin-bottom: 8px;
+    line-height: 1.2;
+  }
+  .result-subtitle { font-size: 16px; color: var(--muted); margin-bottom: 24px; line-height: 1.6; }
+  .result-card {
+    background: linear-gradient(135deg, var(--deep) 0%, #2e2e5a 100%);
+    border-radius: 24px;
+    padding: 28px;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .result-card::after {
+    content: '';
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(245,166,35,0.2) 0%, transparent 70%);
+    top: -50px;
+    right: -50px;
+    border-radius: 50%;
+  }
+  .result-name { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 900; color: white; margin-bottom: 8px; }
+  .result-emoji { font-size: 36px; margin-bottom: 12px; display: block; }
+  .result-desc { font-size: 14px; color: rgba(255,255,255,0.75); line-height: 1.65; margin-bottom: 18px; }
+  .result-tags { display: flex; flex-wrap: wrap; gap: 7px; }
+  .result-tag-chip {
+    background: rgba(255,255,255,0.12);
+    color: var(--sun-light);
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.15);
+  }
+  .alternatives { margin-bottom: 24px; }
+  .alt-label { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+  .alt-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .alt-chip {
+    background: #f5f5fc;
+    color: var(--text);
+    font-size: 13px;
+    font-weight: 500;
+    padding: 7px 16px;
+    border-radius: 30px;
+    border: 1.5px solid #eeeef6;
+  }
+  .cta-btn {
+    display: block;
+    width: 100%;
+    text-align: center;
+    background: linear-gradient(135deg, var(--sun), var(--accent));
+    color: white;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    padding: 16px;
+    border-radius: 16px;
+    text-decoration: none;
+    box-shadow: 0 8px 24px rgba(245,166,35,0.4);
+    transition: all 0.2s ease;
+    cursor: pointer;
+    border: none;
+    margin-bottom: 12px;
+  }
+  .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(245,166,35,0.45); }
+  .restart-btn {
+    display: block;
+    width: 100%;
+    text-align: center;
+    background: transparent;
+    color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 12px;
+    border-radius: 16px;
+    cursor: pointer;
+    border: 2px solid #eeeef6;
+    transition: all 0.2s ease;
+  }
+  .restart-btn:hover { border-color: var(--sun); color: var(--text); }
+  .intro { animation: fadeSlide 0.5s ease forwards; text-align: center; padding: 12px 0 8px; }
+  .intro-emoji { font-size: 56px; margin-bottom: 16px; display: block; }
+  .intro h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 900;
+    color: var(--text);
+    margin-bottom: 12px;
+    line-height: 1.3;
+  }
+  .intro p {
+    font-size: 15px;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-bottom: 28px;
+    max-width: 420px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .start-btn {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--sun), var(--accent));
+    color: white;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    padding: 16px 40px;
+    border-radius: 16px;
+    text-decoration: none;
+    box-shadow: 0 8px 24px rgba(245,166,35,0.4);
+    transition: all 0.2s ease;
+    cursor: pointer;
+    border: none;
+  }
+  .start-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(245,166,35,0.5); }
+</style>
+</head>
+<body>
+<div class="widget">
+  <div class="header">
+    <div class="brand">☀ SunnyWay · Team Building Advisor</div>
+    <h1>Trova il <span>formato perfetto</span> per il tuo team</h1>
+  </div>
+  <div id="progress-area" class="progress-wrap" style="display:none;">
+    <div class="progress-info">
+      <span id="q-counter">Domanda 1 di 10</span>
+      <span id="q-pct">0%</span>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+    </div>
+  </div>
+  <div class="body">
+    <div id="view-intro" class="intro">
+      <span class="intro-emoji">🎯</span>
+      <h2>Qual è il team building giusto per voi?</h2>
+      <p>Rispondi a 10 domande veloci e ti consiglieremo il format SunnyWay più adatto al tuo team, ai tuoi obiettivi e al tuo contesto.</p>
+      <button class="start-btn" onclick="startQuiz()">Inizia ›</button>
+    </div>
+    <div id="view-question" style="display:none;"></div>
+    <div id="view-result" style="display:none;"></div>
+  </div>
+</div>
+
+<script>
+const questions = [
+  {
+    text: "Quante persone parteciperanno all'attività?",
+    options: [
+      { icon: "👥", label: "Piccolo gruppo (fino a 15 persone)", value: "small" },
+      { icon: "🏢", label: "Gruppo medio (16–40 persone)", value: "medium" },
+      { icon: "🎪", label: "Grande gruppo (più di 40 persone)", value: "large" }
+    ]
+  },
+  {
+    text: "Qual è l'obiettivo principale di questo team building?",
+    options: [
+      { icon: "🤝", label: "Conoscersi meglio / rompere il ghiaccio", value: "icebreak" },
+      { icon: "💬", label: "Migliorare comunicazione e collaborazione", value: "communication" },
+      { icon: "🚀", label: "Motivare e rilanciare l'energia del team", value: "motivation" },
+      { icon: "🧠", label: "Sviluppare leadership e problem solving", value: "skills" }
+    ]
+  },
+  {
+    text: "Dove vorreste svolgere l'attività?",
+    options: [
+      { icon: "🌳", label: "All'aperto / outdoor", value: "outdoor" },
+      { icon: "🏠", label: "In ufficio o in sala meeting", value: "indoor" },
+      { icon: "💻", label: "Da remoto / virtuale", value: "virtual" },
+      { icon: "🗺️", label: "In una location esterna (hotel, venue…)", value: "venue" }
+    ]
+  },
+  {
+    text: "Qual è il tono che preferite per l'evento?",
+    options: [
+      { icon: "😄", label: "Divertente e leggero, l'importante è ridere", value: "fun" },
+      { icon: "⚖️", label: "Equilibrio tra divertimento e formazione", value: "balanced" },
+      { icon: "📚", label: "Formativo, con contenuti concreti e spendibili", value: "training" },
+      { icon: "🌱", label: "Solidale / sostenibile, con un impatto sociale", value: "csr" }
+    ]
+  },
+  {
+    text: "Quanto è importante la componente creativa?",
+    options: [
+      { icon: "🎨", label: "Molto! Vogliamo qualcosa di artistico e originale", value: "creative_high" },
+      { icon: "✨", label: "Un po' di creatività ci sta, ma non è centrale", value: "creative_med" },
+      { icon: "📋", label: "Non è prioritaria, preferiamo struttura e chiarezza", value: "creative_low" }
+    ]
+  },
+  {
+    text: "Il team lavora prevalentemente…",
+    options: [
+      { icon: "🏢", label: "Tutti insieme nello stesso ufficio", value: "sameplace" },
+      { icon: "🌐", label: "In sedi diverse o da remoto", value: "remote" },
+      { icon: "🔄", label: "Ibrido: parte in ufficio, parte da casa", value: "hybrid" }
+    ]
+  },
+  {
+    text: "Quante ore avete a disposizione per l'attività?",
+    options: [
+      { icon: "⚡", label: "Meno di 2 ore (pausa pranzo o caffè)", value: "short" },
+      { icon: "🕓", label: "Mezza giornata (2–4 ore)", value: "halfday" },
+      { icon: "🗓️", label: "Una giornata intera o più", value: "fullday" }
+    ]
+  },
+  {
+    text: "Il team ha partecipato di recente ad altri team building?",
+    options: [
+      { icon: "🆕", label: "No, è la prima volta (o quasi)", value: "first" },
+      { icon: "🔁", label: "Sì, qualcuno classico (cena, quiz, giochi)", value: "classic" },
+      { icon: "🌟", label: "Sì, e vogliamo qualcosa di più originale e diverso", value: "experienced" }
+    ]
+  },
+  {
+    text: "C'è un tema o settore aziendale da valorizzare?",
+    options: [
+      { icon: "🍕", label: "Gastronomia / convivialità", value: "food" },
+      { icon: "🎭", label: "Arte, cultura o teatro", value: "art" },
+      { icon: "🏆", label: "Competizione e sfida sportiva", value: "sport" },
+      { icon: "🔮", label: "Nessun tema specifico, aperto a tutto", value: "open" }
+    ]
+  },
+  {
+    text: "Qual è la vostra priorità nella scelta?",
+    options: [
+      { icon: "😊", label: "L'esperienza che il team ricorderà a lungo", value: "memo" },
+      { icon: "📈", label: "Il ritorno concreto sulle performance di squadra", value: "performance" },
+      { icon: "💰", label: "Il miglior rapporto qualità/prezzo", value: "value" },
+      { icon: "🏅", label: "Un evento che rifletta i valori aziendali", value: "values" }
+    ]
+  }
+];
+
+const formats = [
+  {
+    name: "City Challenge",
+    emoji: "🗺️",
+    desc: "Il team si trasforma in squadre di esploratori: missioni, enigmi e prove sparse per la città. Stimola comunicazione, pianificazione e spirito competitivo in modo indimenticabile.",
+    tags: ["Outdoor", "Competitivo", "Grandi gruppi", "Città"],
+    score: (a) => {
+      let s = 0;
+      if (a[2] === "outdoor") s += 3;
+      if (a[2] === "venue") s += 2;
+      if (["medium","large"].includes(a[0])) s += 2;
+      if (a[3] === "fun" || a[3] === "balanced") s += 2;
+      if (a[8] === "sport") s += 3;
+      if (a[7] === "experienced") s += 2;
+      if (a[6] === "halfday" || a[6] === "fullday") s += 2;
+      return s;
+    }
+  },
+  {
+    name: "Cooking Team Building",
+    emoji: "🍳",
+    desc: "Tra i fornelli emergono leadership, ascolto e collaborazione. Dal mercato alla tavola, un'esperienza conviviale che unisce genuinità e lavoro di squadra.",
+    tags: ["Indoor", "Conviviale", "Tutti i gruppi", "Gastronomia"],
+    score: (a) => {
+      let s = 0;
+      if (a[8] === "food") s += 5;
+      if (a[3] === "fun" || a[3] === "balanced") s += 2;
+      if (a[2] === "indoor" || a[2] === "venue") s += 2;
+      if (a[4] === "creative_high" || a[4] === "creative_med") s += 2;
+      if (a[9] === "memo") s += 2;
+      if (a[6] === "halfday" || a[6] === "fullday") s += 1;
+      return s;
+    }
+  },
+  {
+    name: "Angeli & Demoni / Misteri d'Italia",
+    emoji: "🔍",
+    desc: "Un'avventura culturale tra enigmi, attori e iPad: il team risolve un mistero esplorando luoghi iconici. Perfetto per fondere cultura, competizione e collaborazione.",
+    tags: ["Outdoor", "Culturale", "Piccoli-medi gruppi", "Competitivo"],
+    score: (a) => {
+      let s = 0;
+      if (a[8] === "art") s += 4;
+      if (a[2] === "outdoor" || a[2] === "venue") s += 2;
+      if (a[7] === "experienced") s += 3;
+      if (a[4] === "creative_high") s += 2;
+      if (a[9] === "memo") s += 3;
+      if (a[0] === "small" || a[0] === "medium") s += 2;
+      return s;
+    }
+  },
+  {
+    name: "Comunicart – Team Building Artistico",
+    emoji: "🎨",
+    desc: "La comunicazione efficace diventa un'opera d'arte collettiva. I partecipanti collaborano per creare un murales o un'installazione visiva che racconta il team.",
+    tags: ["Indoor/Outdoor", "Creativo", "Formativo", "Arte"],
+    score: (a) => {
+      let s = 0;
+      if (a[4] === "creative_high") s += 5;
+      if (a[8] === "art") s += 4;
+      if (a[1] === "communication") s += 3;
+      if (a[3] === "balanced" || a[3] === "training") s += 2;
+      if (a[9] === "values") s += 2;
+      return s;
+    }
+  },
+  {
+    name: "Lego Serious Play",
+    emoji: "🧱",
+    desc: "Con i mattoncini Lego si costruiscono metafore potenti: valori, visioni condivise e dinamiche di team emergono attraverso il gioco e il racconto.",
+    tags: ["Indoor", "Formativo", "Riflessivo", "Tutti i gruppi"],
+    score: (a) => {
+      let s = 0;
+      if (a[3] === "training" || a[3] === "balanced") s += 3;
+      if (a[1] === "skills" || a[1] === "icebreak") s += 3;
+      if (a[2] === "indoor") s += 2;
+      if (a[9] === "values" || a[9] === "performance") s += 3;
+      if (a[7] === "first") s += 2;
+      if (a[6] === "halfday") s += 2;
+      return s;
+    }
+  },
+  {
+    name: "Active Games",
+    emoji: "🏅",
+    desc: "Ispirato ai grandi programmi TV, questo format outdoor porta il team attraverso prove fisiche, strategiche e creative. Energia, adrenalina e coesione garantiti.",
+    tags: ["Outdoor", "Dinamico", "Motivazionale", "Grandi gruppi"],
+    score: (a) => {
+      let s = 0;
+      if (a[8] === "sport") s += 5;
+      if (a[2] === "outdoor") s += 4;
+      if (a[1] === "motivation") s += 4;
+      if (a[0] === "large" || a[0] === "medium") s += 2;
+      if (a[3] === "fun") s += 3;
+      if (a[6] === "fullday" || a[6] === "halfday") s += 2;
+      return s;
+    }
+  },
+  {
+    name: "Motore, Azione! – Team Building Cinematografico",
+    emoji: "🎬",
+    desc: "Il team diventa una troupe: sceneggiatura, riprese e montaggio. Si conclude con la proiezione del cortometraggio su grande schermo. Creativo e indimenticabile.",
+    tags: ["Indoor/Outdoor", "Creativo", "Unico", "Piccoli-medi gruppi"],
+    score: (a) => {
+      let s = 0;
+      if (a[4] === "creative_high") s += 4;
+      if (a[8] === "art") s += 3;
+      if (a[9] === "memo") s += 4;
+      if (a[7] === "experienced") s += 3;
+      if (a[3] === "fun" || a[3] === "balanced") s += 2;
+      if (a[0] === "small" || a[0] === "medium") s += 2;
+      if (a[6] === "fullday") s += 2;
+      return s;
+    }
+  },
+  {
+    name: "Team Building Virtuale / Ibrido",
+    emoji: "💻",
+    desc: "Format pensato per team distribuiti: quiz interattivi, escape room digitali, challenge creative online. Connette i colleghi a distanza in modo coinvolgente.",
+    tags: ["Virtuale", "Ibrido", "Flessibile", "Tutti i gruppi"],
+    score: (a) => {
+      let s = 0;
+      if (a[2] === "virtual") s += 8;
+      if (a[5] === "remote" || a[5] === "hybrid") s += 5;
+      if (a[1] === "icebreak" || a[1] === "communication") s += 2;
+      if (a[6] === "short" || a[6] === "halfday") s += 2;
+      return s;
+    }
+  },
+  {
+    name: "Team Building Solidale / CSR",
+    emoji: "🌱",
+    desc: "Costruire qualcosa per chi ne ha bisogno: dalla raccolta solidale ai laboratori sociali. Rafforza lo spirito di squadra e l'orgoglio di appartenere a un'azienda responsabile.",
+    tags: ["Indoor/Outdoor", "Solidale", "Valori", "Tutti i gruppi"],
+    score: (a) => {
+      let s = 0;
+      if (a[3] === "csr") s += 8;
+      if (a[9] === "values") s += 4;
+      if (a[1] === "motivation") s += 2;
+      if (a[9] === "memo") s += 2;
+      return s;
+    }
+  },
+  {
+    name: "Snow Games / Avventura Invernale",
+    emoji: "❄️",
+    desc: "Avventura sulla neve: prove fisiche, costruzione del campo base, sfide di sopravvivenza metaforica. Un team building invernale che nessuno dimentica.",
+    tags: ["Outdoor invernale", "Avventura", "Problem solving", "Adrenalina"],
+    score: (a) => {
+      let s = 0;
+      if (a[2] === "outdoor") s += 3;
+      if (a[8] === "sport") s += 3;
+      if (a[1] === "skills" || a[1] === "motivation") s += 3;
+      if (a[9] === "memo") s += 3;
+      if (a[7] === "experienced") s += 2;
+      if (a[6] === "fullday") s += 2;
+      return s;
+    }
+  }
+];
+
+let current = 0;
+let answers = [];
+
+function startQuiz() {
+  current = 0;
+  answers = [];
+  document.getElementById("view-intro").style.display = "none";
+  document.getElementById("progress-area").style.display = "block";
+  document.getElementById("view-question").style.display = "block";
+  renderQuestion();
+}
+
+function renderQuestion() {
+  updateProgress();
+  const q = questions[current];
+  const container = document.getElementById("view-question");
+  container.innerHTML = `
+    <div class="question-block">
+      <div class="q-label">Domanda ${current + 1} di ${questions.length}</div>
+      <div class="q-text">${q.text}</div>
+      <div class="options">
+        ${q.options.map(opt => `
+          <button class="option ${answers[current] === opt.value ? 'selected' : ''}"
+                  onclick="selectOption('${opt.value}')">
+            <span class="option-icon">${opt.icon}</span>
+            <span>${opt.label}</span>
+          </button>
+        `).join('')}
+      </div>
+      <div class="nav">
+        ${current > 0 ? `<button class="btn btn-back" onclick="goBack()">← Indietro</button>` : ''}
+        <button class="btn btn-next" id="btn-next" onclick="goNext()" ${answers[current] ? '' : 'disabled'}>
+          ${current < questions.length - 1 ? 'Avanti →' : 'Scopri il tuo format ✨'}
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+function selectOption(value) {
+  answers[current] = value;
+  document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+  event.currentTarget.classList.add('selected');
+  document.getElementById('btn-next').disabled = false;
+}
+
+function goNext() {
+  if (!answers[current]) return;
+  if (current < questions.length - 1) {
+    current++;
+    renderQuestion();
+  } else {
+    showResult();
+  }
+}
+
+function goBack() {
+  if (current > 0) { current--; renderQuestion(); }
+}
+
+function updateProgress() {
+  const pct = Math.round((current / questions.length) * 100);
+  document.getElementById('q-counter').textContent = `Domanda ${current + 1} di ${questions.length}`;
+  document.getElementById('q-pct').textContent = pct + '%';
+  document.getElementById('progress-fill').style.width = pct + '%';
+}
+
+function showResult() {
+  const scored = formats.map(f => ({ ...f, pts: f.score(answers) })).sort((a, b) => b.pts - a.pts);
+  const top = scored[0];
+  const alts = scored.slice(1, 4);
+
+  document.getElementById('q-pct').textContent = '100%';
+  document.getElementById('progress-fill').style.width = '100%';
+  document.getElementById('q-counter').textContent = '✓ Analisi completata';
+  document.getElementById("view-question").style.display = "none";
+
+  const resultEl = document.getElementById("view-result");
+  resultEl.style.display = "block";
+  resultEl.innerHTML = `
+    <div class="result">
+      <div class="result-tag">Il tuo match perfetto</div>
+      <h2>Abbiamo trovato<br>il format giusto per te!</h2>
+      <p class="result-subtitle">Sulla base delle tue risposte, questo è il format SunnyWay più adatto al tuo team:</p>
+      <div class="result-card">
+        <span class="result-emoji">${top.emoji}</span>
+        <div class="result-name">${top.name}</div>
+        <p class="result-desc">${top.desc}</p>
+        <div class="result-tags">${top.tags.map(t => `<span class="result-tag-chip">${t}</span>`).join('')}</div>
+      </div>
+      <div class="alternatives">
+        <div class="alt-label">Potrebbero interessarti anche</div>
+        <div class="alt-chips">${alts.map(f => `<span class="alt-chip">${f.emoji} ${f.name}</span>`).join('')}</div>
+      </div>
+      <a href="https://sunnywayteambuilding.com/it/team-building/" target="_blank" class="cta-btn">
+        Esplora i format su SunnyWay →
+      </a>
+      <button class="restart-btn" onclick="restartQuiz()">↩ Ricomincia dal principio</button>
+    </div>
+  `;
+}
+
+function restartQuiz() {
+  document.getElementById("view-result").style.display = "none";
+  document.getElementById("progress-area").style.display = "none";
+  document.getElementById("view-intro").style.display = "block";
+}
+</script>
+</body>
+</html>
