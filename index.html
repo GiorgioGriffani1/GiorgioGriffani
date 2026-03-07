@@ -410,5 +410,155 @@ wr.addEventListener('mousedown',e=>{dn=true;wr.style.cursor='grabbing';sx0=e.pag
 ['mouseleave','mouseup'].forEach(ev=>wr.addEventListener(ev,()=>{dn=false;wr.style.cursor='grab'}));
 wr.addEventListener('mousemove',e=>{if(!dn)return;e.preventDefault();wr.scrollLeft=sl0-(e.pageX-wr.offsetLeft-sx0)*1.5});
 </script>
-</body>
+<!-- 🦊 Giorgio Chat Widget – incolla in Squarespace: Settings → Advanced → Code Injection → Footer -->
+<style>
+  #gg-chat-btn {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    width: 62px;
+    height: 62px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ff6b1a, #ff9d3d);
+    box-shadow: 0 4px 20px rgba(255,107,26,0.55), 0 0 0 3px rgba(255,107,26,0.2);
+    cursor: pointer;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    border: none;
+    transition: transform .2s, box-shadow .2s;
+    animation: ggPulse 2.5s ease-in-out infinite;
+  }
+  #gg-chat-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 28px rgba(255,107,26,0.7), 0 0 0 5px rgba(255,107,26,0.15);
+  }
+  @keyframes ggPulse {
+    0%,100% { box-shadow: 0 4px 20px rgba(255,107,26,0.55), 0 0 0 3px rgba(255,107,26,0.2); }
+    50%      { box-shadow: 0 4px 28px rgba(255,107,26,0.8), 0 0 0 8px rgba(255,107,26,0.08); }
+  }
+
+  #gg-chat-popup {
+    position: fixed;
+    bottom: 104px;
+    right: 28px;
+    width: 380px;
+    height: 580px;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 12px 50px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,107,26,0.2);
+    z-index: 9998;
+    display: none;
+    transform: scale(0.92) translateY(12px);
+    opacity: 0;
+    transition: transform .25s cubic-bezier(.34,1.56,.64,1), opacity .2s ease;
+    transform-origin: bottom right;
+  }
+  #gg-chat-popup.open {
+    display: block;
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+  #gg-chat-popup iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
+  /* Tooltip */
+  #gg-tooltip {
+    position: fixed;
+    bottom: 36px;
+    right: 100px;
+    background: rgba(15,8,4,0.92);
+    color: #ffcc88;
+    font-family: sans-serif;
+    font-size: 13px;
+    padding: 7px 14px;
+    border-radius: 20px;
+    border: 1px solid rgba(255,107,26,0.3);
+    white-space: nowrap;
+    z-index: 9997;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity .3s;
+  }
+  #gg-tooltip.show { opacity: 1; }
+
+  @media (max-width: 500px) {
+    #gg-chat-popup {
+      width: calc(100vw - 20px);
+      height: 75vh;
+      right: 10px;
+      bottom: 90px;
+    }
+  }
+</style>
+
+<div id="gg-tooltip">Parla con Giorgio 🦊</div>
+<button id="gg-chat-btn" aria-label="Apri chat con Giorgio">🦊</button>
+<div id="gg-chat-popup">
+  <iframe
+    id="gg-iframe"
+    src=""
+    data-src="https://thefox-1fi.pages.dev/"
+    allow="clipboard-write"
+    loading="lazy"
+    title="Parla con Giorgio">
+  </iframe>
+</div>
+
+<script>
+(function() {
+  const btn     = document.getElementById('gg-chat-btn');
+  const popup   = document.getElementById('gg-chat-popup');
+  const tooltip = document.getElementById('gg-tooltip');
+  const iframe  = document.getElementById('gg-iframe');
+  let   open    = false;
+  let   loaded  = false;
+  let   tipTimer;
+
+  // Mostra tooltip dopo 3 secondi
+  setTimeout(() => {
+    tooltip.classList.add('show');
+    tipTimer = setTimeout(() => tooltip.classList.remove('show'), 4000);
+  }, 3000);
+
+  btn.addEventListener('click', () => {
+    open = !open;
+    tooltip.classList.remove('show');
+    clearTimeout(tipTimer);
+
+    if (open) {
+      // Carica l'iframe solo al primo click (lazy)
+      if (!loaded) {
+        iframe.src = iframe.dataset.src;
+        loaded = true;
+      }
+      popup.style.display = 'block';
+      requestAnimationFrame(() => popup.classList.add('open'));
+      btn.textContent = '✕';
+      btn.style.fontSize = '22px';
+    } else {
+      popup.classList.remove('open');
+      setTimeout(() => { popup.style.display = 'none'; }, 250);
+      btn.textContent = '🦊';
+      btn.style.fontSize = '28px';
+    }
+  });
+
+  // Chiudi cliccando fuori
+  document.addEventListener('click', (e) => {
+    if (open && !popup.contains(e.target) && e.target !== btn) {
+      open = false;
+      popup.classList.remove('open');
+      setTimeout(() => { popup.style.display = 'none'; }, 250);
+      btn.textContent = '🦊';
+      btn.style.fontSize = '28px';
+    }
+  });
+})();
+</script></body>
 </html>
