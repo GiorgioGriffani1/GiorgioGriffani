@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Giorgio Griffani</title>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6195279906306523" crossorigin="anonymous"></script>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -112,18 +113,14 @@ footer{background:#020810;padding:1.3rem;text-align:center;font-size:.68rem;colo
 <section class="hero">
   <div class="sky"></div>
   <div class="stars-wrap" id="stars"></div>
-  <!-- Mountain silhouette SVG -->
   <svg class="mtn" viewBox="0 0 1440 400" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
     <path d="M0,275 L85,235 L175,200 L265,228 L368,178 L455,212 L558,160 L655,195 L758,150 L858,180 L958,150 L1058,174 L1158,148 L1260,172 L1365,152 L1440,170 L1440,400 L0,400Z" fill="#122050" opacity=".52"/>
     <path d="M0,308 L92,268 L185,244 L265,278 L365,218 L465,255 L565,200 L665,240 L765,195 L865,228 L965,190 L1065,220 L1165,185 L1265,212 L1365,192 L1440,210 L1440,400 L0,400Z" fill="#1a3060" opacity=".62"/>
-    <!-- Snow caps -->
     <path d="M558,160 L575,138 L592,160Z" fill="#ddeeff" opacity=".9"/>
     <path d="M758,150 L777,126 L796,150Z" fill="#ddeeff" opacity=".95"/>
     <path d="M958,150 L978,125 L998,150Z" fill="#ddeeff" opacity=".88"/>
     <path d="M1158,148 L1177,124 L1196,148Z" fill="#ddeeff" opacity=".85"/>
-    <!-- Foreground dark -->
     <path d="M0,358 L105,318 L208,344 L325,295 L445,333 L565,280 L685,320 L805,270 L925,310 L1045,264 L1165,300 L1285,270 L1385,294 L1440,280 L1440,400 L0,400Z" fill="#0d1e36"/>
-    <!-- Pines -->
     <g fill="#071510" opacity=".88">
       <polygon points="42,358 52,330 62,358"/>
       <polygon points="74,354 85,325 96,354"/>
@@ -195,7 +192,7 @@ footer{background:#020810;padding:1.3rem;text-align:center;font-size:.68rem;colo
   </div>
   <div class="exp-grid">
     <div class="exp-card">
-      <div class="exp-period">Mag 2021 · Presente · 4+ anni</div>
+      <div class="exp-period">Mag 2021 · Presente · 5+ anni</div>
       <div class="exp-role">Project Manager Eventi</div>
       <div class="exp-company">SunnyWay Team Building · Roma</div>
       <div class="exp-desc">Event producer a tempo pieno: ideazione, creazione e realizzazione di eventi su misura. Gestione logistica, budget e coordinamento team dalla concept alla delivery.</div>
@@ -260,7 +257,7 @@ footer{background:#020810;padding:1.3rem;text-align:center;font-size:.68rem;colo
     <a href="https://giorgiogriffani.it" class="c-btn btn-out" target="_blank">Sito attuale</a>
   </div>
 </section>
-<footer>© 2025 Giorgio Griffani · Roma · Ingegneria, eventi e montagna</footer>
+<footer>© 2026 Giorgio Griffani · Roma · Ingegneria, eventi e montagna</footer>
 
 <script>
 // Stars
@@ -274,7 +271,7 @@ footer{background:#020810;padding:1.3rem;text-align:center;font-size:.68rem;colo
   }
 })();
 
-// Timeline — real milestones from LinkedIn
+// Timeline
 const MILES=[
   {yr:'2011',label:'IT Freelance & Scout',desc:'Due inizi in parallelo: avvio come specialista informatico freelance e primo anno come capo AGESCI.',col:'#5ba3e8'},
   {yr:'2014',label:'Leadership AGESCI',desc:'Responsabile di ~40 ragazzi 11-16 anni. Campo base in montagna autosufficiente ogni anno: 14 giorni, zero approvvigionamento esterno.',col:'#7ec850'},
@@ -283,7 +280,7 @@ const MILES=[
   {yr:'2021',label:'Project Manager SunnyWay',desc:'Event producer a tempo pieno in SunnyWay Team Building. Gestione end-to-end di eventi su misura — dalla concept alla delivery.',col:'#5ba3e8'},
   {yr:'2022',label:'CAD Specialist Lego',desc:'Ideazione e realizzazione modelli CAD per costruzioni Lego. Efficienza design +30%, tempi -20%.',col:'#5ba3e8'},
   {yr:'2023',label:'Fine esperienza AGESCI',desc:'Dopo 11 anni e mezzo si chiude il capitolo scout. Una scuola di leadership che nessun master può replicare.',col:'#7ec850'},
-  {yr:'2025',label:'Presente & Futuro',desc:'Studente, event producer, video maker e IT specialist in parallelo. Cercando la prossima vetta — professionale o alpina.',col:'#e8c476'},
+  {yr:'2026',label:'Presente & Futuro',desc:'Studente, event producer, video maker e IT specialist in parallelo. Cercando la prossima vetta — professionale o alpina.',col:'#e8c476'},
 ];
 
 const STEP=175,PAD=110,H=330,AMP=54;
@@ -296,13 +293,11 @@ svg.setAttribute('viewBox',`0 0 ${W} ${H}`);
 svg.setAttribute('width',W);svg.setAttribute('height',H);
 svg.style.minWidth=W+'px';
 
-// bg mountain hint inside svg
 const mb=document.createElementNS('http://www.w3.org/2000/svg','path');
 const mw=W;
 mb.setAttribute('d',`M0,${H} L0,225 L${mw*.1},192 L${mw*.2},215 L${mw*.33},170 L${mw*.47},198 L${mw*.6},158 L${mw*.74},185 L${mw*.87},160 L${mw},180 L${mw},${H}Z`);
 mb.setAttribute('fill','rgba(18,40,80,.4)');svg.appendChild(mb);
 
-// defs
 const defs=document.createElementNS('http://www.w3.org/2000/svg','defs');
 defs.innerHTML=`
 <filter id="glow"><feGaussianBlur stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
@@ -324,13 +319,11 @@ function crPath(pts){
 const pts=MILES.map((_,i)=>({x:gx(i),y:gy(i)}));
 const pd=crPath(pts);
 
-// shadow + line
 const sh=document.createElementNS('http://www.w3.org/2000/svg','path');
 sh.setAttribute('d',pd);sh.setAttribute('fill','none');sh.setAttribute('stroke','rgba(0,0,0,.3)');sh.setAttribute('stroke-width','7');sh.setAttribute('stroke-linecap','round');svg.appendChild(sh);
 const ln=document.createElementNS('http://www.w3.org/2000/svg','path');
 ln.setAttribute('d',pd);ln.setAttribute('fill','none');ln.setAttribute('stroke','url(#lg)');ln.setAttribute('stroke-width','2.5');ln.setAttribute('stroke-linecap','round');ln.setAttribute('filter','url(#glow)');svg.appendChild(ln);
 
-// draw animation
 setTimeout(()=>{
   const tl=ln.getTotalLength();
   ln.style.strokeDasharray=tl;ln.style.strokeDashoffset=tl;
@@ -342,19 +335,16 @@ MILES.forEach((m,i)=>{
   const x=gx(i),y=gy(i),above=i%2===0;
   const LY=above?y-72:y+72;
 
-  // connector
   const cl=document.createElementNS('http://www.w3.org/2000/svg','line');
   cl.setAttribute('x1',x);cl.setAttribute('y1',y);cl.setAttribute('x2',x);cl.setAttribute('y2',LY);
   cl.setAttribute('stroke','rgba(232,196,118,.18)');cl.setAttribute('stroke-width','1');cl.setAttribute('stroke-dasharray','3,3');svg.appendChild(cl);
 
-  // year
   const yr=document.createElementNS('http://www.w3.org/2000/svg','text');
   yr.setAttribute('x',x);yr.setAttribute('y',above?LY-16:LY+14);
   yr.setAttribute('text-anchor','middle');yr.setAttribute('fill',m.col);yr.setAttribute('font-size','10');
   yr.setAttribute('font-family','DM Sans,sans-serif');yr.setAttribute('letter-spacing','2');yr.textContent=m.yr;
   svg.appendChild(yr);
 
-  // label lines
   const words=m.label.split(' ');
   const half=Math.ceil(words.length/2);
   const lines=[words.slice(0,half).join(' '),words.slice(half).join(' ')].filter(Boolean);
@@ -367,21 +357,17 @@ MILES.forEach((m,i)=>{
     t.textContent=txt;svg.appendChild(t);
   });
 
-  // outer ring
   const ring=document.createElementNS('http://www.w3.org/2000/svg','circle');
   ring.setAttribute('cx',x);ring.setAttribute('cy',y);ring.setAttribute('r','15');
   ring.setAttribute('fill','none');ring.setAttribute('stroke',m.col);ring.setAttribute('stroke-width','1');ring.setAttribute('opacity','.3');svg.appendChild(ring);
 
-  // bg
   const bg=document.createElementNS('http://www.w3.org/2000/svg','circle');
   bg.setAttribute('cx',x);bg.setAttribute('cy',y);bg.setAttribute('r','12');bg.setAttribute('fill','#06111f');svg.appendChild(bg);
 
-  // dot
   const dot=document.createElementNS('http://www.w3.org/2000/svg','circle');
   dot.setAttribute('cx',x);dot.setAttribute('cy',y);dot.setAttribute('r','8');
   dot.setAttribute('fill',m.col);dot.setAttribute('filter','url(#glow)');svg.appendChild(dot);
 
-  // hit
   const hit=document.createElementNS('http://www.w3.org/2000/svg','circle');
   hit.setAttribute('cx',x);hit.setAttribute('cy',y);hit.setAttribute('r','22');hit.setAttribute('fill','transparent');hit.style.cursor='pointer';svg.appendChild(hit);
 
@@ -403,162 +389,94 @@ MILES.forEach((m,i)=>{
   hit.addEventListener('touchend',hide);
 });
 
-// drag scroll
 const wr=document.getElementById('tlWrap');
 let dn=false,sx0,sl0;
 wr.addEventListener('mousedown',e=>{dn=true;wr.style.cursor='grabbing';sx0=e.pageX-wr.offsetLeft;sl0=wr.scrollLeft});
 ['mouseleave','mouseup'].forEach(ev=>wr.addEventListener(ev,()=>{dn=false;wr.style.cursor='grab'}));
 wr.addEventListener('mousemove',e=>{if(!dn)return;e.preventDefault();wr.scrollLeft=sl0-(e.pageX-wr.offsetLeft-sx0)*1.5});
 </script>
-<!-- 🦊 Giorgio Chat Widget – incolla in Squarespace: Settings → Advanced → Code Injection → Footer -->
+
+<!-- 🦊 Giorgio Chat Widget -->
 <style>
   #gg-chat-btn {
-    position: fixed;
-    bottom: 28px;
-    right: 28px;
-    width: 62px;
-    height: 62px;
-    border-radius: 50%;
+    position: fixed; bottom: 28px; right: 28px;
+    width: 62px; height: 62px; border-radius: 50%;
     background: linear-gradient(135deg, #ff6b1a, #ff9d3d);
     box-shadow: 0 4px 20px rgba(255,107,26,0.55), 0 0 0 3px rgba(255,107,26,0.2);
-    cursor: pointer;
-    z-index: 9999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 28px;
-    border: none;
+    cursor: pointer; z-index: 9999;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px; border: none;
     transition: transform .2s, box-shadow .2s;
     animation: ggPulse 2.5s ease-in-out infinite;
   }
-  #gg-chat-btn:hover {
-    transform: scale(1.1);
-    box-shadow: 0 6px 28px rgba(255,107,26,0.7), 0 0 0 5px rgba(255,107,26,0.15);
-  }
+  #gg-chat-btn:hover { transform: scale(1.1); box-shadow: 0 6px 28px rgba(255,107,26,0.7), 0 0 0 5px rgba(255,107,26,0.15); }
   @keyframes ggPulse {
     0%,100% { box-shadow: 0 4px 20px rgba(255,107,26,0.55), 0 0 0 3px rgba(255,107,26,0.2); }
     50%      { box-shadow: 0 4px 28px rgba(255,107,26,0.8), 0 0 0 8px rgba(255,107,26,0.08); }
   }
-
   #gg-chat-popup {
-    position: fixed;
-    bottom: 104px;
-    right: 28px;
-    width: 380px;
-    height: 580px;
-    border-radius: 16px;
-    overflow: hidden;
+    position: fixed; bottom: 104px; right: 28px;
+    width: 380px; height: 580px;
+    border-radius: 16px; overflow: hidden;
     box-shadow: 0 12px 50px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,107,26,0.2);
-    z-index: 9998;
-    display: none;
-    transform: scale(0.92) translateY(12px);
-    opacity: 0;
+    z-index: 9998; display: none;
+    transform: scale(0.92) translateY(12px); opacity: 0;
     transition: transform .25s cubic-bezier(.34,1.56,.64,1), opacity .2s ease;
     transform-origin: bottom right;
   }
-  #gg-chat-popup.open {
-    display: block;
-    transform: scale(1) translateY(0);
-    opacity: 1;
-  }
-  #gg-chat-popup iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-  }
-
-  /* Tooltip */
+  #gg-chat-popup.open { display: block; transform: scale(1) translateY(0); opacity: 1; }
+  #gg-chat-popup iframe { width: 100%; height: 100%; border: none; }
   #gg-tooltip {
-    position: fixed;
-    bottom: 36px;
-    right: 100px;
-    background: rgba(15,8,4,0.92);
-    color: #ffcc88;
-    font-family: sans-serif;
-    font-size: 13px;
-    padding: 7px 14px;
-    border-radius: 20px;
+    position: fixed; bottom: 36px; right: 100px;
+    background: rgba(15,8,4,0.92); color: #ffcc88;
+    font-family: sans-serif; font-size: 13px;
+    padding: 7px 14px; border-radius: 20px;
     border: 1px solid rgba(255,107,26,0.3);
-    white-space: nowrap;
-    z-index: 9997;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity .3s;
+    white-space: nowrap; z-index: 9997;
+    pointer-events: none; opacity: 0; transition: opacity .3s;
   }
   #gg-tooltip.show { opacity: 1; }
-
   @media (max-width: 500px) {
-    #gg-chat-popup {
-      width: calc(100vw - 20px);
-      height: 75vh;
-      right: 10px;
-      bottom: 90px;
-    }
+    #gg-chat-popup { width: calc(100vw - 20px); height: 75vh; right: 10px; bottom: 90px; }
   }
 </style>
 
 <div id="gg-tooltip">Parla con Giorgio 🦊</div>
 <button id="gg-chat-btn" aria-label="Apri chat con Giorgio">🦊</button>
 <div id="gg-chat-popup">
-  <iframe
-    id="gg-iframe"
-    src=""
-    data-src="https://thefox-1fi.pages.dev/"
-    allow="clipboard-write"
-    loading="lazy"
-    title="Parla con Giorgio">
-  </iframe>
+  <iframe id="gg-iframe" src="" data-src="https://thefox-1fi.pages.dev/"
+    allow="clipboard-write" loading="lazy" title="Parla con Giorgio"></iframe>
 </div>
 
 <script>
 (function() {
-  const btn     = document.getElementById('gg-chat-btn');
-  const popup   = document.getElementById('gg-chat-popup');
-  const tooltip = document.getElementById('gg-tooltip');
-  const iframe  = document.getElementById('gg-iframe');
-  let   open    = false;
-  let   loaded  = false;
-  let   tipTimer;
-
-  // Mostra tooltip dopo 3 secondi
-  setTimeout(() => {
-    tooltip.classList.add('show');
-    tipTimer = setTimeout(() => tooltip.classList.remove('show'), 4000);
-  }, 3000);
-
-  btn.addEventListener('click', () => {
-    open = !open;
-    tooltip.classList.remove('show');
-    clearTimeout(tipTimer);
-
-    if (open) {
-      // Carica l'iframe solo al primo click (lazy)
-      if (!loaded) {
-        iframe.src = iframe.dataset.src;
-        loaded = true;
-      }
-      popup.style.display = 'block';
-      requestAnimationFrame(() => popup.classList.add('open'));
-      btn.textContent = '✕';
-      btn.style.fontSize = '22px';
+  const btn=document.getElementById('gg-chat-btn');
+  const popup=document.getElementById('gg-chat-popup');
+  const tooltip=document.getElementById('gg-tooltip');
+  const iframe=document.getElementById('gg-iframe');
+  let open=false,loaded=false,tipTimer;
+  setTimeout(()=>{tooltip.classList.add('show');tipTimer=setTimeout(()=>tooltip.classList.remove('show'),4000);},3000);
+  btn.addEventListener('click',()=>{
+    open=!open;tooltip.classList.remove('show');clearTimeout(tipTimer);
+    if(open){
+      if(!loaded){iframe.src=iframe.dataset.src;loaded=true;}
+      popup.style.display='block';
+      requestAnimationFrame(()=>popup.classList.add('open'));
+      btn.textContent='✕';btn.style.fontSize='22px';
     } else {
       popup.classList.remove('open');
-      setTimeout(() => { popup.style.display = 'none'; }, 250);
-      btn.textContent = '🦊';
-      btn.style.fontSize = '28px';
+      setTimeout(()=>{popup.style.display='none';},250);
+      btn.textContent='🦊';btn.style.fontSize='28px';
     }
   });
-
-  // Chiudi cliccando fuori
-  document.addEventListener('click', (e) => {
-    if (open && !popup.contains(e.target) && e.target !== btn) {
-      open = false;
-      popup.classList.remove('open');
-      setTimeout(() => { popup.style.display = 'none'; }, 250);
-      btn.textContent = '🦊';
-      btn.style.fontSize = '28px';
+  document.addEventListener('click',(e)=>{
+    if(open&&!popup.contains(e.target)&&e.target!==btn){
+      open=false;popup.classList.remove('open');
+      setTimeout(()=>{popup.style.display='none';},250);
+      btn.textContent='🦊';btn.style.fontSize='28px';
     }
   });
 })();
-</script></body>
+</script>
+</body>
 </html>
