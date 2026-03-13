@@ -457,6 +457,11 @@ wr.addEventListener('mousemove',e=>{if(!dn)return;e.preventDefault();wr.scrollLe
   let open=false,loaded=false,tipTimer;
   setTimeout(()=>{tooltip.classList.add('show');tipTimer=setTimeout(()=>tooltip.classList.remove('show'),4000);},3000);
   btn.addEventListener('click',()=>{
+    // Su mobile apri direttamente la pagina
+    if(window.innerWidth <= 768) {
+      window.open('https://thefox-1fi.pages.dev/', '_blank');
+      return;
+    }
     open=!open;tooltip.classList.remove('show');clearTimeout(tipTimer);
     if(open){
       if(!loaded){iframe.src=iframe.dataset.src;loaded=true;}
