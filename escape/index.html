@@ -1,1 +1,993 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Volpe & l'Enigma — Escape Rooms d'Autore</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;600&family=Jost:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8C97A;
+    --gold-dim: #8B6914;
+    --green-deep: #0D1F0F;
+    --green-dark: #122914;
+    --green-mid: #1A3D1C;
+    --green-accent: #2A5C2C;
+    --wood-light: #4A3728;
+    --wood-dark: #2C1F14;
+    --cream: #F5EDD8;
+    --cream-dim: #C8B896;
+    --ink: #0A0F0A;
+  }
 
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    height: 100%;
+    overflow: hidden;
+    background: var(--green-deep);
+    font-family: 'Jost', sans-serif;
+    cursor: default;
+  }
+
+  /* ─── WOOD TEXTURE OVERLAY ─── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      repeating-linear-gradient(
+        87deg,
+        transparent 0px,
+        rgba(74,55,40,0.04) 1px,
+        transparent 2px,
+        transparent 8px
+      ),
+      repeating-linear-gradient(
+        93deg,
+        transparent 0px,
+        rgba(44,31,20,0.03) 1px,
+        transparent 2px,
+        transparent 12px
+      );
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ─── GOLD GRAIN ─── */
+  body::after {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    background-size: 180px;
+    opacity: 0.6;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ─── APP SHELL ─── */
+  #app {
+    position: fixed; inset: 0;
+    display: flex;
+    flex-direction: column;
+    z-index: 1;
+  }
+
+  /* ─── HEADER ─── */
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 48px;
+    height: 72px;
+    border-bottom: 1px solid rgba(201,168,76,0.25);
+    background: linear-gradient(180deg, rgba(13,31,15,0.98) 0%, rgba(13,31,15,0.92) 100%);
+    backdrop-filter: blur(12px);
+    flex-shrink: 0;
+  }
+
+  .logo {
+    font-family: 'Cinzel', serif;
+    font-size: 1.15rem;
+    letter-spacing: 0.18em;
+    color: var(--gold);
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .logo-fox {
+    font-size: 1.4rem;
+    opacity: 0.9;
+  }
+  .logo-sep {
+    width: 1px;
+    height: 24px;
+    background: rgba(201,168,76,0.3);
+  }
+  .logo-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 0.8rem;
+    color: var(--cream-dim);
+    letter-spacing: 0.12em;
+    text-transform: none;
+  }
+
+  nav {
+    display: flex;
+    gap: 4px;
+  }
+  .nav-btn {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--cream-dim);
+    background: none;
+    border: 1px solid transparent;
+    padding: 8px 20px;
+    cursor: pointer;
+    transition: all 0.35s ease;
+    position: relative;
+  }
+  .nav-btn:hover, .nav-btn.active {
+    color: var(--gold);
+    border-color: rgba(201,168,76,0.4);
+    background: rgba(201,168,76,0.06);
+  }
+  .nav-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px; left: 50%;
+    transform: translateX(-50%);
+    width: 40%;
+    height: 2px;
+    background: var(--gold);
+  }
+
+  /* ─── PAGES CONTAINER ─── */
+  #pages {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .page {
+    position: absolute;
+    inset: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(12px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    scrollbar-width: thin;
+    scrollbar-color: var(--gold-dim) transparent;
+  }
+  .page.active {
+    opacity: 1;
+    pointer-events: all;
+    transform: translateY(0);
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    height: 44px;
+    border-top: 1px solid rgba(201,168,76,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    background: rgba(13,31,15,0.95);
+  }
+  footer span {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 0.72rem;
+    color: rgba(201,168,76,0.45);
+    letter-spacing: 0.14em;
+  }
+
+  /* ════════════════════════════════════
+     PAGE 1 — MANIFESTO
+  ════════════════════════════════════ */
+  #page-manifesto {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 48px;
+    min-height: 100%;
+    background: radial-gradient(ellipse 80% 70% at 50% 50%, rgba(42,92,44,0.12) 0%, transparent 70%);
+  }
+
+  .manifesto-inner {
+    max-width: 680px;
+    text-align: center;
+    animation: fadeUp 1s ease both;
+  }
+
+  .quote-ornament {
+    font-family: 'Cinzel', serif;
+    font-size: 5rem;
+    color: var(--gold);
+    line-height: 0.6;
+    margin-bottom: 36px;
+    opacity: 0.4;
+    display: block;
+  }
+
+  .quote-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.65;
+    color: var(--cream);
+    letter-spacing: 0.02em;
+    position: relative;
+  }
+
+  .quote-text em {
+    font-style: normal;
+    color: var(--gold-light);
+  }
+
+  .quote-author {
+    margin-top: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+  }
+  .quote-line {
+    width: 60px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+  .quote-author span {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+  }
+
+  .manifesto-body {
+    margin-top: 64px;
+    padding-top: 48px;
+    border-top: 1px solid rgba(201,168,76,0.15);
+  }
+  .manifesto-body p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    line-height: 1.9;
+    color: var(--cream-dim);
+    margin-bottom: 20px;
+  }
+  .manifesto-body p strong {
+    color: var(--gold-light);
+    font-weight: 400;
+  }
+
+  .ornament-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 48px 0;
+    justify-content: center;
+  }
+  .ornament-divider::before, .ornament-divider::after {
+    content: '';
+    flex: 1;
+    max-width: 120px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(201,168,76,0.4));
+  }
+  .ornament-divider::after {
+    background: linear-gradient(90deg, rgba(201,168,76,0.4), transparent);
+  }
+  .ornament-divider span {
+    color: var(--gold);
+    font-size: 1rem;
+    opacity: 0.6;
+  }
+
+  /* ════════════════════════════════════
+     PAGE 2 — ESCAPE ROOMS (HOME)
+  ════════════════════════════════════ */
+  #page-home {
+    padding: 48px 48px 64px;
+    background: radial-gradient(ellipse 60% 40% at 50% 0%, rgba(42,92,44,0.1) 0%, transparent 60%);
+  }
+
+  .home-header {
+    text-align: center;
+    margin-bottom: 56px;
+    animation: fadeUp 0.7s ease both;
+  }
+  .home-eyebrow {
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.4em;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .home-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 300;
+    color: var(--cream);
+    line-height: 1.1;
+  }
+  .home-title em {
+    font-style: italic;
+    color: var(--gold-light);
+  }
+
+  /* GRID */
+  .rooms-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .room-card {
+    position: relative;
+    background: linear-gradient(145deg, rgba(26,61,28,0.6) 0%, rgba(18,41,20,0.8) 100%);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 2px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+    animation: fadeUp 0.6s ease both;
+    text-decoration: none;
+    display: block;
+  }
+  .room-card:nth-child(1) { animation-delay: 0.1s; }
+  .room-card:nth-child(2) { animation-delay: 0.2s; }
+  .room-card:nth-child(3) { animation-delay: 0.3s; }
+  .room-card:nth-child(4) { animation-delay: 0.4s; }
+  .room-card:nth-child(5) { animation-delay: 0.5s; }
+  .room-card:nth-child(6) { animation-delay: 0.6s; }
+
+  .room-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(201,168,76,0.06) 0%, transparent 50%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+  .room-card:hover::before { opacity: 1; }
+  .room-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(201,168,76,0.55);
+    box-shadow: 0 16px 48px rgba(0,0,0,0.4), 0 0 32px rgba(201,168,76,0.08);
+  }
+
+  .card-accent {
+    height: 3px;
+    background: linear-gradient(90deg, var(--gold-dim), var(--gold-light), var(--gold-dim));
+    opacity: 0.7;
+  }
+
+  .card-body {
+    padding: 28px 28px 24px;
+  }
+
+  .card-category {
+    font-family: 'Cinzel', serif;
+    font-size: 0.55rem;
+    letter-spacing: 0.35em;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card-category::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(201,168,76,0.2);
+  }
+
+  .card-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.45rem;
+    font-weight: 400;
+    color: var(--cream);
+    line-height: 1.25;
+    margin-bottom: 14px;
+    transition: color 0.3s;
+  }
+  .room-card:hover .card-title { color: var(--gold-light); }
+
+  .card-desc {
+    font-size: 0.8rem;
+    line-height: 1.7;
+    color: rgba(200,184,150,0.7);
+    margin-bottom: 24px;
+    font-weight: 300;
+  }
+
+  .card-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 18px;
+    border-top: 1px solid rgba(201,168,76,0.12);
+  }
+
+  .card-tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .tag {
+    font-family: 'Cinzel', serif;
+    font-size: 0.5rem;
+    letter-spacing: 0.2em;
+    color: var(--gold-dim);
+    border: 1px solid rgba(201,168,76,0.25);
+    padding: 3px 8px;
+    text-transform: uppercase;
+  }
+
+  .card-cta {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 0.82rem;
+    color: var(--gold);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: gap 0.3s ease;
+  }
+  .room-card:hover .card-cta { gap: 10px; }
+  .card-cta::after { content: '→'; font-style: normal; }
+
+  /* MODAL */
+  .modal-backdrop {
+    position: fixed; inset: 0;
+    background: rgba(8,16,9,0.88);
+    backdrop-filter: blur(8px);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s ease;
+  }
+  .modal-backdrop.open {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .modal {
+    background: linear-gradient(145deg, #142016, #0e1a10);
+    border: 1px solid rgba(201,168,76,0.35);
+    max-width: 580px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    transform: translateY(20px) scale(0.97);
+    transition: transform 0.35s ease;
+    position: relative;
+  }
+  .modal-backdrop.open .modal {
+    transform: translateY(0) scale(1);
+  }
+  .modal-top { height: 4px; background: linear-gradient(90deg, var(--gold-dim), var(--gold-light), var(--gold-dim)); }
+  .modal-inner { padding: 36px 40px 40px; }
+  .modal-cat {
+    font-family: 'Cinzel', serif;
+    font-size: 0.55rem;
+    letter-spacing: 0.35em;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .modal-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    color: var(--cream);
+    margin-bottom: 8px;
+    line-height: 1.15;
+  }
+  .modal-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--gold-light);
+    margin-bottom: 24px;
+  }
+  .modal-divider { height: 1px; background: rgba(201,168,76,0.18); margin-bottom: 24px; }
+  .modal-desc {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.08rem;
+    line-height: 1.85;
+    color: var(--cream-dim);
+    margin-bottom: 28px;
+  }
+  .modal-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--ink);
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    border: none;
+    padding: 14px 28px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+  }
+  .btn-primary:hover {
+    background: linear-gradient(135deg, var(--gold-light), var(--gold));
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(201,168,76,0.3);
+  }
+
+  .btn-close {
+    position: absolute;
+    top: 16px; right: 16px;
+    width: 32px; height: 32px;
+    background: none;
+    border: 1px solid rgba(201,168,76,0.25);
+    color: var(--gold-dim);
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+  .btn-close:hover { border-color: var(--gold); color: var(--gold); background: rgba(201,168,76,0.08); }
+
+  /* ════════════════════════════════════
+     PAGE 3 — CONTATTACI
+  ════════════════════════════════════ */
+  #page-contact {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 48px;
+    min-height: 100%;
+    background: radial-gradient(ellipse 70% 60% at 50% 80%, rgba(42,92,44,0.08) 0%, transparent 70%);
+  }
+
+  .contact-inner {
+    max-width: 720px;
+    width: 100%;
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: start;
+  }
+
+  .contact-left .eyebrow {
+    font-family: 'Cinzel', serif;
+    font-size: 0.58rem;
+    letter-spacing: 0.38em;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .contact-left h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 3.5vw, 2.8rem);
+    font-weight: 300;
+    color: var(--cream);
+    line-height: 1.15;
+    margin-bottom: 24px;
+  }
+  .contact-left h2 em {
+    font-style: italic;
+    color: var(--gold-light);
+    display: block;
+  }
+  .contact-bio {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.05rem;
+    line-height: 1.85;
+    color: var(--cream-dim);
+    margin-bottom: 32px;
+  }
+  .contact-bio strong {
+    color: var(--gold-light);
+    font-weight: 400;
+  }
+
+  .contact-fox-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    border: 1px solid rgba(201,168,76,0.3);
+    padding: 14px 20px;
+    background: rgba(42,92,44,0.15);
+  }
+  .fox-icon { font-size: 1.8rem; }
+  .fox-text { }
+  .fox-name {
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    display: block;
+  }
+  .fox-role {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 0.8rem;
+    color: var(--cream-dim);
+  }
+
+  .contact-right {
+    padding-top: 8px;
+  }
+
+  .contact-form { display: flex; flex-direction: column; gap: 16px; }
+
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
+  .form-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.55rem;
+    letter-spacing: 0.3em;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+  }
+  .form-input, .form-textarea {
+    background: rgba(26,61,28,0.3);
+    border: 1px solid rgba(201,168,76,0.2);
+    color: var(--cream);
+    font-family: 'Jost', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 300;
+    padding: 12px 16px;
+    outline: none;
+    transition: border-color 0.3s;
+    width: 100%;
+    resize: none;
+  }
+  .form-input::placeholder, .form-textarea::placeholder { color: rgba(200,184,150,0.3); }
+  .form-input:focus, .form-textarea:focus { border-color: rgba(201,168,76,0.55); background: rgba(26,61,28,0.5); }
+  .form-textarea { height: 120px; }
+
+  .form-success {
+    display: none;
+    text-align: center;
+    padding: 24px;
+    border: 1px solid rgba(201,168,76,0.3);
+    background: rgba(42,92,44,0.15);
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.05rem;
+    color: var(--gold-light);
+    margin-top: 8px;
+  }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ─── SCROLLBAR ─── */
+  .page::-webkit-scrollbar { width: 4px; }
+  .page::-webkit-scrollbar-track { background: transparent; }
+  .page::-webkit-scrollbar-thumb { background: rgba(201,168,76,0.3); border-radius: 2px; }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 700px) {
+    header { padding: 0 20px; }
+    .logo-sub { display: none; }
+    .nav-btn { padding: 8px 12px; font-size: 0.58rem; }
+    #page-home, #page-manifesto, #page-contact { padding: 32px 20px 48px; }
+    .contact-grid { grid-template-columns: 1fr; gap: 36px; }
+    .rooms-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div id="app">
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo">
+      <span class="logo-fox">🦊</span>
+      <div class="logo-sep"></div>
+      <div>
+        <div>La Volpe &amp; l'Enigma</div>
+        <div class="logo-sub">Escape Rooms d'Autore</div>
+      </div>
+    </div>
+    <nav>
+      <button class="nav-btn" data-page="manifesto" onclick="showPage('manifesto')">Manifesto</button>
+      <button class="nav-btn active" data-page="home" onclick="showPage('home')">Le Stanze</button>
+      <button class="nav-btn" data-page="contact" onclick="showPage('contact')">Contattaci</button>
+    </nav>
+  </header>
+
+  <!-- PAGES -->
+  <div id="pages">
+
+    <!-- ── PAGE: MANIFESTO ── -->
+    <div class="page" id="page-manifesto">
+      <div class="manifesto-inner">
+        <span class="quote-ornament">"</span>
+        <p class="quote-text">
+          Non esiste prigione più dolce<br>di quella che abbiamo scelto<br>
+          d'abitare insieme, per un'ora,<br>con la <em>meraviglia</em> come chiave.
+        </p>
+        <div class="quote-author">
+          <div class="quote-line"></div>
+          <span>La Volpe Artista</span>
+          <div class="quote-line"></div>
+        </div>
+
+        <div class="ornament-divider"><span>◆</span></div>
+
+        <div class="manifesto-body">
+          <p>
+            C'è un momento — preciso, fragile — in cui un gruppo di persone smette di essere individui 
+            e diventa <strong>un'unica mente in cerca di luce</strong>. Quel momento è la mia materia prima.
+          </p>
+          <p>
+            Ogni stanza che creo è un racconto scritto nell'aria: ha un incipit che vi sorprende, 
+            un nodo che vi fa dubitare, e un epilogo che porta con sé <strong>qualcosa di imprendibile</strong> — 
+            la gioia di avercela fatta insieme.
+          </p>
+          <p>
+            Non costruisco attrazioni. Costruisco <strong>piccoli universi di felicità condivisa</strong>, 
+            ritagliati per chi sa ancora guardarsi negli occhi e ridere di un indizio sbagliato.
+          </p>
+          <p>
+            Benvenuti nella tana. 🦊
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── PAGE: HOME / ESCAPE ROOMS ── -->
+    <div class="page active" id="page-home">
+      <div class="home-header">
+        <div class="home-eyebrow">◆ Collezione Enigmi ◆</div>
+        <h1 class="home-title">Le nostre <em>Stanze</em></h1>
+      </div>
+
+      <div class="rooms-grid" id="rooms-grid">
+        <!-- Cards generate via JS -->
+      </div>
+    </div>
+
+    <!-- ── PAGE: CONTATTACI ── -->
+    <div class="page" id="page-contact">
+      <div class="contact-inner">
+        <div class="contact-grid">
+
+          <div class="contact-left">
+            <div class="eyebrow">◆ Chi sono ◆</div>
+            <h2>Benvenuto<em>nella tana.</em></h2>
+            <p class="contact-bio">
+              Sono <strong>La Volpe</strong> — artista degli enigmi, creatrice di piccoli mondi temporanei 
+              in cui i gruppi ritrovano la complicità perduta nei giorni ordinari.
+            </p>
+            <p class="contact-bio">
+              Progetto ogni esperienza come una <strong>partitura per più mani</strong>: ogni indizio è 
+              una nota, ogni soluzione un accordo. Il risultato è sempre lo stesso: 
+              risate, stupore, e quella rara soddisfazione di aver pensato <em>insieme</em>.
+            </p>
+            <p class="contact-bio">
+              Se vuoi collaborare, proporre un'avventura su misura o semplicemente 
+              scrivermi perché anche tu ami le volpi — sono qui.
+            </p>
+            <div class="contact-fox-badge">
+              <span class="fox-icon">🦊</span>
+              <div class="fox-text">
+                <span class="fox-name">La Volpe Artista</span>
+                <span class="fox-role">Creatrice di piccole felicità in scatola</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="contact-right">
+            <div class="contact-form" id="contact-form">
+              <div class="form-group">
+                <label class="form-label">Il tuo nome</label>
+                <input type="text" class="form-input" placeholder="Come ti chiami?" id="f-name">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-input" placeholder="dove ti rispondo" id="f-email">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Il tuo messaggio</label>
+                <textarea class="form-textarea" placeholder="Dimmi tutto..." id="f-msg"></textarea>
+              </div>
+              <button class="btn-primary" onclick="submitForm()">Invia il messaggio →</button>
+            </div>
+            <div class="form-success" id="form-success">
+              🦊 Messaggio ricevuto!<br>
+              <span style="font-size:0.85rem; color: var(--cream-dim);">Ti rispondo presto, con un indizio.</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /pages -->
+
+  <!-- FOOTER -->
+  <footer>
+    <span>La Volpe &amp; l'Enigma · Escape Rooms d'Autore · ogni stanza è un dono</span>
+  </footer>
+
+</div><!-- /app -->
+
+<!-- MODAL -->
+<div class="modal-backdrop" id="modal" onclick="closeModal(event)">
+  <div class="modal" id="modal-box">
+    <div class="modal-top"></div>
+    <button class="btn-close" onclick="closeModalDirect()">✕</button>
+    <div class="modal-inner">
+      <div class="modal-cat" id="m-cat"></div>
+      <h2 class="modal-title" id="m-title"></h2>
+      <div class="modal-price" id="m-price"></div>
+      <div class="modal-divider"></div>
+      <p class="modal-desc" id="m-desc"></p>
+      <div class="modal-tags" id="m-tags"></div>
+      <a href="#" class="btn-primary" id="m-link" target="_blank">Prenota l'Avventura ↗</a>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── DATA ──
+const rooms = [
+  {
+    id: 1,
+    category: "Avventura Botanica",
+    title: "Piante Mutanti",
+    shortDesc: "Il laboratorio è invaso. Le piante hanno sviluppato un'intelligenza — e non vogliono lasciarvi andare.",
+    fullDesc: "Qualcuno ha lasciato aperto il reattore di crescita accelerata. Ora il laboratorio è una giungla pulsante, le radici bloccano le uscite e le foglie trasmettono codici morse. Dovrete comunicare con la Pianta Madre — capire la sua logica, decifrare il suo linguaggio clorofilliano — prima che il soffitto ceda sotto il peso dei rami. Un'esperienza sensoriale unica: profumi, suoni organici, e una flora che vi osserva.",
+    price: "Da €26 a persona",
+    tags: ["2–6 giocatori", "60 min", "🟨 Medio"],
+    link: "https://esempio.com/piante-mutanti"
+  },
+  {
+    id: 2,
+    category: "In Arrivo",
+    title: "Stiamo Scrivendo la Storia…",
+    shortDesc: "La seconda avventura è in fase di creazione. Torna presto — o lasciaci la tua email per scoprirla in anteprima.",
+    fullDesc: "La Volpe sta lavorando alla prossima stanza. Ogni dettaglio viene curato come un racconto: il primo indizio, l'atmosfera, il finale che non ti aspetti. Non possiamo svelarti ancora nulla — ma possiamo dirti che vale l'attesa. Iscriviti alla newsletter o scrivici per essere tra i primi a giocarla.",
+    price: "Prossimamente",
+    tags: ["In sviluppo", "🦊 Coming Soon"],
+    link: "https://esempio.com/coming-soon"
+  },
+  {
+    id: 3,
+    category: "In Arrivo",
+    title: "Stiamo Scrivendo la Storia…",
+    shortDesc: "Una nuova stanza sta prendendo forma nell'atelier della Volpe. L'enigma nasce lentamente, come si conviene.",
+    fullDesc: "Non si costruisce un'avventura in fretta. La terza stanza è ancora in quella fase magica in cui tutto è possibile — il tema, i meccanismi, la sorpresa finale. Se vuoi influenzarne la nascita, scrivici: ascoltiamo sempre le voci dei giocatori curiosi.",
+    price: "Prossimamente",
+    tags: ["In sviluppo", "🦊 Coming Soon"],
+    link: "https://esempio.com/coming-soon"
+  },
+  {
+    id: 4,
+    category: "In Arrivo",
+    title: "Stiamo Scrivendo la Storia…",
+    shortDesc: "Il quarto enigma è nel cassetto della Volpe. Ci vorrà il tempo che merita — e ne varrà la pena.",
+    fullDesc: "Ogni stanza nasce da una domanda: cosa succederebbe se… La quarta avventura parte da una domanda che ancora non possiamo rivelare. Quello che sappiamo è che farà ridere, stringerà lo stomaco al momento giusto, e lascerà qualcosa di imprendibile anche dopo la fine.",
+    price: "Prossimamente",
+    tags: ["In sviluppo", "🦊 Coming Soon"],
+    link: "https://esempio.com/coming-soon"
+  },
+  {
+    id: 5,
+    category: "In Arrivo",
+    title: "Stiamo Scrivendo la Storia…",
+    shortDesc: "La quinta stanza è solo un titolo per ora, scritto su un foglietto appiccicato allo specchio della Volpe.",
+    fullDesc: "A volte un'idea arriva come un lampo — un'immagine, una sensazione, un meccanismo che non si è mai visto. Questa è quella fase. La quinta avventura esiste già come visione; deve solo diventare realtà. Seguici per non perdere il momento del debutto.",
+    price: "Prossimamente",
+    tags: ["In sviluppo", "🦊 Coming Soon"],
+    link: "https://esempio.com/coming-soon"
+  },
+  {
+    id: 6,
+    category: "In Arrivo",
+    title: "Stiamo Scrivendo la Storia…",
+    shortDesc: "L'ultima stanza è ancora un segreto. Anche per noi, in parte. I migliori enigmi nascono così.",
+    fullDesc: "Sei stanze. Sei mondi. L'ultima è quella che ci spaventa di più — nel senso buono. Quando non sai ancora dove ti porterà, stai costruendo qualcosa di vero. Torna a trovarci: ogni visita potrebbe essere quella in cui trovi il titolo definitivo comparso qui.",
+    price: "Prossimamente",
+    tags: ["In sviluppo", "🦊 Coming Soon"],
+    link: "https://esempio.com/coming-soon"
+  }
+];
+
+// ── NAVIGATION ──
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  document.querySelector(`[data-page="${id}"]`).classList.add('active');
+}
+
+// ── RENDER CARDS ──
+function renderCards() {
+  const grid = document.getElementById('rooms-grid');
+  grid.innerHTML = rooms.map(r => `
+    <div class="room-card" onclick="openModal(${r.id})">
+      <div class="card-accent"></div>
+      <div class="card-body">
+        <div class="card-category">${r.category}</div>
+        <h3 class="card-title">${r.title}</h3>
+        <p class="card-desc">${r.shortDesc}</p>
+        <div class="card-meta">
+          <div class="card-tags">${r.tags.slice(0,2).map(t => `<span class="tag">${t}</span>`).join('')}</div>
+          <span class="card-cta">Scopri</span>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ── MODAL ──
+function openModal(id) {
+  const r = rooms.find(x => x.id === id);
+  if (!r) return;
+  document.getElementById('m-cat').textContent = r.category;
+  document.getElementById('m-title').textContent = r.title;
+  document.getElementById('m-price').textContent = r.price;
+  document.getElementById('m-desc').textContent = r.fullDesc;
+  document.getElementById('m-tags').innerHTML = r.tags.map(t => `<span class="tag">${t}</span>`).join('');
+  document.getElementById('m-link').href = r.link;
+  document.getElementById('modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(e) {
+  if (e.target === document.getElementById('modal')) closeModalDirect();
+}
+function closeModalDirect() {
+  document.getElementById('modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModalDirect(); });
+
+// ── FORM ──
+function submitForm() {
+  const name = document.getElementById('f-name').value.trim();
+  const email = document.getElementById('f-email').value.trim();
+  const msg = document.getElementById('f-msg').value.trim();
+  if (!name || !email || !msg) {
+    alert('Compila tutti i campi per inviare il messaggio 🦊');
+    return;
+  }
+  document.getElementById('contact-form').style.display = 'none';
+  document.getElementById('form-success').style.display = 'block';
+}
+
+// ── INIT ──
+renderCards();
+</script>
+</body>
+</html>
