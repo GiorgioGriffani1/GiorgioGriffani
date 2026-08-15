@@ -359,12 +359,41 @@ function fitCanvas() {
   canvas.style.height = innerHeight + 'px';
   draw(current);
 }
+/* A phone held sideways is wider than the 16:9 footage, so "cover" would crop
+   the shot. There we fit the whole frame and fill the side bars with a blurred
+   copy of it. The blur comes from upscaling a tiny offscreen thumbnail, which
+   costs almost nothing -- a real canvas filter would be redrawn every frame. */
+// Touch is checked separately from the size query: (pointer: coarse) alone is
+// unreliable on hybrids, and without it a short desktop window would qualify.
+const isTouch = matchMedia('(pointer: coarse)').matches || navigator.maxTouchPoints > 0;
+const phoneLandscape = () =>
+  isTouch && matchMedia('(orientation: landscape) and (max-height: 500px)').matches;
+
+const bg = document.createElement('canvas');
+bg.width = 64; bg.height = 36;
+const bgCtx = bg.getContext('2d');
+
 function draw(idx) {
   const im = images[Math.max(0, Math.min(FRAME_COUNT - 1, idx | 0))];
   if (!im || !im.complete || !im.naturalWidth) return;
   const cw = canvas.width, ch = canvas.height;
-  const s = Math.max(cw / im.naturalWidth, ch / im.naturalHeight);
-  const w = im.naturalWidth * s, h = im.naturalHeight * s;
+  const iw = im.naturalWidth, ih = im.naturalHeight;
+
+  if (phoneLandscape()) {
+    bgCtx.drawImage(im, 0, 0, bg.width, bg.height);
+    const bs = Math.max(cw / bg.width, ch / bg.height);
+    const bw = bg.width * bs, bh = bg.height * bs;
+    ctx.drawImage(bg, (cw - bw) / 2, (ch - bh) / 2, bw, bh);
+    ctx.fillStyle = 'rgba(4,9,12,0.4)';
+    ctx.fillRect(0, 0, cw, ch);
+    const s = Math.min(cw / iw, ch / ih);
+    const w = iw * s, h = ih * s;
+    ctx.drawImage(im, (cw - w) / 2, (ch - h) / 2, w, h);
+    return;
+  }
+
+  const s = Math.max(cw / iw, ch / ih);
+  const w = iw * s, h = ih * s;
   ctx.drawImage(im, (cw - w) / 2, (ch - h) / 2, w, h);
 }
 
