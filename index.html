@@ -344,7 +344,9 @@ gsap.registerPlugin(ScrollTrigger);
 
 const FRAME_COUNT = 384;
 const PAD = 3;
-const frameSrc = i => `images/frames/f_${String(i + 1).padStart(PAD, '0')}.jpg`;
+// WebP, not JPEG: at matching fidelity it is smaller, and these frames are
+// mostly night skies and stage lighting, where JPEG blocks up in the gradients.
+const frameSrc = i => `images/frames/f_${String(i + 1).padStart(PAD, '0')}.webp`;
 
 const canvas = document.getElementById('stage');
 const ctx = canvas.getContext('2d');
