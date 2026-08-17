@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Giorgio Griffani</title>
-<meta name="description" content="Giorgio Griffani — ingegneria meccanica, project management eventi, CAD/3D, video production e IT. Roma.">
+<meta name="description" content="Giorgio Griffani, Roma — consulenza su eventi fino a 1.000 persone, logistica, progettazione CAD/3D, produzione video e sistemi IT. Dalla teoria al campo.">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6195279906306523" crossorigin="anonymous"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -64,7 +64,9 @@ body{font-family:'DM Sans',sans-serif;background:var(--sky-deep);color:var(--whi
 .headline{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
   width:92vw;text-align:center;z-index:7;opacity:0;
   font-family:'Playfair Display',serif;font-weight:700;
-  font-size:clamp(40px,8vw,132px);line-height:.98;letter-spacing:.06em;
+  /* the 40px floor was wider than a 390px phone for a word like COSTRUIAMO,
+     which clipped at both edges; let it shrink with the viewport instead */
+  font-size:clamp(24px,7.6vw,132px);line-height:.98;letter-spacing:.06em;
   /* white halo lifts the letters off bright frames (Lego city, event lights);
      the tight dark ring under it is what actually defines the edges */
   text-shadow:
@@ -203,17 +205,17 @@ footer{background:#020810;padding:1.3rem;text-align:center;font-size:.68rem;colo
   <div class="rotate-tip"><span class="ph">📱</span>Gira il telefono per vedere in orizzontale</div>
 
   <div class="card">
-    <div class="eyebrow">Benvenuto nel mio studio</div>
-    <p>Ingegneria, eventi e <em>montagna</em>. Trasformo idee in sistemi, CAD, video e <em>mondi da esplorare</em>.</p>
+    <div class="eyebrow">Consulenza tecnica e organizzativa</div>
+    <p>Progetto <em>sistemi che reggono</em>: logistica, eventi, CAD e video. Dalla prima idea alla <em>consegna sul campo</em>.</p>
   </div>
 
-  <div class="headline h1line"><span>LA MIA SCUOLA</span><span class="thin">il campo base</span></div>
-  <div class="headline h2line"><span>EVENTI SU MISURA</span><span class="thin">fino a 1.000 persone</span></div>
-  <div class="headline final"><span>COSTRUIAMO</span><span class="thin">qualcosa insieme</span></div>
+  <div class="headline h1line"><span>PROVATO SUL CAMPO</span><span class="thin">non sulla carta</span></div>
+  <div class="headline h2line"><span>DALL'IDEA AL PALCO</span><span class="thin">fino a 1.000 persone</span></div>
+  <div class="headline final"><span>COSTRUIAMO</span><span class="thin">il tuo progetto</span></div>
 
   <div class="hint"><div>Scorri</div><div class="arrow"></div></div>
 
-  <div class="marquee"><div class="marquee-track"><span>Ingegneria Meccanica</span><span>Project Management</span><span>CAD / 3D</span><span>Event Production</span><span>Video Making</span><span>IT Specialist</span><span>Leadership Outdoor</span><span>Ingegneria Meccanica</span><span>Project Management</span><span>CAD / 3D</span><span>Event Production</span><span>Video Making</span><span>IT Specialist</span><span>Leadership Outdoor</span></div></div>
+  <div class="marquee"><div class="marquee-track"><span>Consulenza di progetto</span><span>Project management</span><span>Logistica e supply chain</span><span>Progettazione CAD / 3D</span><span>Eventi e team building</span><span>Produzione video</span><span>Sicurezza e OHS</span><span>Sistemi IT</span><span>Consulenza di progetto</span><span>Project management</span><span>Logistica e supply chain</span><span>Progettazione CAD / 3D</span><span>Eventi e team building</span><span>Produzione video</span><span>Sicurezza e OHS</span><span>Sistemi IT</span></div></div>
 
   <div class="loader" id="loader"><span>caricamento…</span></div>
 </section>
@@ -226,9 +228,9 @@ footer{background:#020810;padding:1.3rem;text-align:center;font-size:.68rem;colo
       <span class="badge-loc">Roma · Italia</span>
     </div>
     <div class="about-text">
-      <h2>Chi sono — <em>sistemi, eventi e montagna</em></h2>
-      <p>Studente di Ingegneria Meccanica a Roma Tre con un approccio sistemico applicato a tutto: processi logistici, gestione eventi complessi con oltre 1.000 persone, modellazione CAD e analisi di sicurezza OHS.</p>
-      <p>Per oltre 11 anni ho guidato gruppi scout AGESCI — ogni anno il vero banco di prova: portare 40 ragazzi a costruire e gestire un campo base in montagna, autosufficiente per 14 giorni. Quello che impari lì non lo trovi in nessun corso di management.</p>
+      <h2>Chi sono — <em>dalla teoria al campo</em></h2>
+      <p>Aiuto aziende e organizzatori a far funzionare progetti complessi: flussi logistici, eventi da oltre 1.000 persone, layout CAD e analisi di sicurezza. Ingegneria meccanica applicata a problemi che devono funzionare il giorno stesso, non sulla carta.</p>
+      <p>Per 11 anni ho portato 40 ragazzi a costruire e gestire un campo base autosufficiente per 14 giorni, in montagna. È lì che vedi cosa succede quando un piano incontra la realtà — ed è il motivo per cui nei miei progetti c'è sempre scritto anche cosa fare quando qualcosa va storto.</p>
       <div class="tags">
         <span class="tag">Ingegneria Meccanica</span>
         <span class="tag">Project Management</span>
@@ -312,31 +314,32 @@ footer{background:#020810;padding:1.3rem;text-align:center;font-size:.68rem;colo
 <!-- ── SKILLS ── -->
 <section class="sk-section">
   <div class="sec-head">
-    <h2>Competenze <em>chiave</em></h2>
-    <p>Tecniche &amp; trasversali</p>
+    <h2>Come posso <em>aiutarti</em></h2>
+    <p>Ambiti di consulenza</p>
   </div>
   <div class="sk-grid">
-    <div class="sk-card"><div class="sk-icon">📐</div><div class="sk-name">CAD / 3D Modeling</div><div class="sk-detail">Layout funzionali, simulazioni e modelli Lego su CAD</div></div>
-    <div class="sk-card"><div class="sk-icon">🎬</div><div class="sk-name">Video Production</div><div class="sk-detail">Produzione, regia, montaggio e patente droni</div></div>
-    <div class="sk-card"><div class="sk-icon">📦</div><div class="sk-name">Logistica &amp; Supply Chain</div><div class="sk-detail">Ottimizzazione flussi, sizing, stima transit time</div></div>
-    <div class="sk-card"><div class="sk-icon">🎪</div><div class="sk-name">Event Management</div><div class="sk-detail">Gestione eventi fino a 1.000+ persone, end-to-end</div></div>
-    <div class="sk-card"><div class="sk-icon">💻</div><div class="sk-name">IT Specialist</div><div class="sk-detail">Hardware, software, sicurezza, manutenzione sistemi</div></div>
-    <div class="sk-card"><div class="sk-icon">🏕️</div><div class="sk-name">Leadership outdoor</div><div class="sk-detail">11 anni AGESCI, gestione gruppi in ambienti complessi</div></div>
-    <div class="sk-card"><div class="sk-icon">🛡️</div><div class="sk-name">OHS &amp; Safety</div><div class="sk-detail">Risk assessment, piani di emergenza, route design</div></div>
-    <div class="sk-card"><div class="sk-icon">🧠</div><div class="sk-name">Systems Engineering</div><div class="sk-detail">Analisi processi, riduzione bottleneck, modellazione quantitativa</div></div>
+    <div class="sk-card"><div class="sk-icon">🎪</div><div class="sk-name">Eventi su misura</div><div class="sk-detail">Dalla prima idea alla serata finita: logistica, budget, squadre. Fino a 1.000+ persone</div></div>
+    <div class="sk-card"><div class="sk-icon">🧠</div><div class="sk-name">Analisi di processo</div><div class="sk-detail">Guardo il tuo flusso e ti dico dove si inceppa, con i numeri in mano</div></div>
+    <div class="sk-card"><div class="sk-icon">📐</div><div class="sk-name">Progettazione CAD / 3D</div><div class="sk-detail">Layout e modelli per vedere se un progetto sta in piedi prima di costruirlo</div></div>
+    <div class="sk-card"><div class="sk-icon">📦</div><div class="sk-name">Logistica e supply chain</div><div class="sk-detail">Flussi più snelli, tempi di transito stimati, colli di bottiglia rimossi</div></div>
+    <div class="sk-card"><div class="sk-icon">🎬</div><div class="sk-name">Produzione video</div><div class="sk-detail">Racconto quello che fai: riprese, montaggio e riprese con drone</div></div>
+    <div class="sk-card"><div class="sk-icon">🛡️</div><div class="sk-name">Sicurezza e OHS</div><div class="sk-detail">Valutazione rischi, piani di emergenza e percorsi per stare tranquilli</div></div>
+    <div class="sk-card"><div class="sk-icon">💻</div><div class="sk-name">Sistemi IT</div><div class="sk-detail">Hardware, software e sicurezza per non restare mai fermi</div></div>
+    <div class="sk-card"><div class="sk-icon">🧭</div><div class="sk-name">Gestione squadre</div><div class="sk-detail">Coordino gruppi dove un errore si paga subito: 11 anni sul campo</div></div>
   </div>
 </section>
 
 <!-- ── CONTACT ── -->
 <section class="contact" id="contatti">
-  <h2>Parliamo di <em>progetti</em></h2>
-  <p>Disponibile per collaborazioni su eventi, video, IT o tesi ingegneristiche.</p>
+  <h2>Hai un progetto da <em>far funzionare?</em></h2>
+  <p>Raccontami cosa devi ottenere e per quando. Ti dico subito se posso aiutarti,
+     come lo imposterei e cosa serve davvero — anche se la risposta è che non sono io la persona giusta.</p>
   <div class="c-links">
-    <a href="https://www.linkedin.com/in/giorgio-griffani-6590bb209/" class="c-btn btn-gold" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="https://www.linkedin.com/in/giorgio-griffani-6590bb209/" class="c-btn btn-gold" target="_blank" rel="noopener">Scrivimi su LinkedIn</a>
     <a href="#home" class="c-btn btn-out">Torna al viaggio</a>
   </div>
 </section>
-<footer>© 2026 Giorgio Griffani · Roma · Ingegneria, eventi e montagna</footer>
+<footer>© 2026 Giorgio Griffani · Roma · Ingegneria, eventi e logistica sul campo</footer>
 
 <script>
 /* ── HERO: scroll-scrubbed frame sequence ── */
