@@ -354,11 +354,19 @@ const dpr = Math.min(window.devicePixelRatio || 1, 2);
 const images = new Array(FRAME_COUNT);
 let current = 0;
 
+/* Size the backing store from the element's own measured box, never from
+   innerWidth/innerHeight: on a phone those still report the old orientation
+   when `resize` fires, which left the canvas at portrait width on a landscape
+   screen -- the "only the left half is drawn" bug. CSS (inset:0) owns the
+   display size, so no pixel width is written back to the style. */
 function fitCanvas() {
-  canvas.width = Math.floor(innerWidth * dpr);
-  canvas.height = Math.floor(innerHeight * dpr);
-  canvas.style.width = innerWidth + 'px';
-  canvas.style.height = innerHeight + 'px';
+  const r = canvas.getBoundingClientRect();
+  const bw = Math.max(1, Math.floor(r.width * dpr));
+  const bh = Math.max(1, Math.floor(r.height * dpr));
+  if (canvas.width !== bw || canvas.height !== bh) {
+    canvas.width = bw;
+    canvas.height = bh;
+  }
   draw(current);
 }
 /* A phone held sideways is wider than the 16:9 footage, so "cover" would crop
@@ -368,8 +376,11 @@ function fitCanvas() {
 // Touch is checked separately from the size query: (pointer: coarse) alone is
 // unreliable on hybrids, and without it a short desktop window would qualify.
 const isTouch = matchMedia('(pointer: coarse)').matches || navigator.maxTouchPoints > 0;
+// 600px of height, not 500: big phones in landscape can exceed the tighter
+// limit and were falling back to the cropping fit. The height cap is still
+// what keeps touch-screen laptops out of this branch.
 const phoneLandscape = () =>
-  isTouch && matchMedia('(orientation: landscape) and (max-height: 500px)').matches;
+  isTouch && matchMedia('(orientation: landscape) and (max-height: 600px)').matches;
 
 const bg = document.createElement('canvas');
 bg.width = 64; bg.height = 36;
@@ -411,7 +422,18 @@ for (let i = 0; i < FRAME_COUNT; i++) {
   im.src = frameSrc(i);
   images[i] = im;
 }
+/* ResizeObserver catches the real box change whenever it happens, which is what
+   `resize` cannot be trusted to do across an orientation flip. The extra delayed
+   pass covers phones that settle their viewport (address bar) after rotating,
+   and ScrollTrigger has to re-measure because the pin height depends on it. */
+new ResizeObserver(fitCanvas).observe(canvas);
 window.addEventListener('resize', fitCanvas);
+window.addEventListener('orientationchange', () => {
+  [0, 120, 400, 800].forEach(d => setTimeout(() => {
+    fitCanvas();
+    ScrollTrigger.refresh();
+  }, d));
+});
 
 const last = FRAME_COUNT - 1;
 const RUNWAY = Math.round(last * 19);     // ~19px of scroll per frame keeps motion smooth
