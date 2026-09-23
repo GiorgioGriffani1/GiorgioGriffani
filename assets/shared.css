@@ -1,0 +1,120 @@
+/* ============================================================
+   giorgiogriffani.it — stile condiviso fra hub e sotto-pagine
+   Font: Playfair Display (titoli) + DM Sans (corpo) — via Google Fonts,
+   caricati da ogni pagina con i suoi <link> propri (non qui, per CSP/ordine).
+   ============================================================ */
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --accent:#e8c476;
+  --gold:#e8c476;
+  --gold-dim:rgba(232,196,118,0.15);
+  --sky-deep:#050d1a;
+  --white:#f5f0e8;
+  --text:#b8c4d8;
+}
+
+body{
+  font-family:'DM Sans',sans-serif;
+  background:var(--sky-deep);
+  color:var(--white);
+  overflow-x:hidden;
+}
+
+a{color:inherit}
+
+img{max-width:100%}
+
+/* ── NAV PILL (in cima a ogni pagina) ── */
+.site-nav{
+  position:fixed;top:26px;left:50%;transform:translateX(-50%);
+  display:flex;align-items:center;gap:4px;z-index:100;
+  background:rgba(255,255,255,.08);backdrop-filter:blur(14px) saturate(1.2);
+  -webkit-backdrop-filter:blur(14px) saturate(1.2);
+  border:1px solid rgba(232,196,118,.3);border-radius:999px;padding:6px 8px;
+}
+.site-nav a{
+  color:#f2e6cd;text-decoration:none;font-size:12.5px;font-weight:500;
+  letter-spacing:.06em;padding:7px 14px;border-radius:999px;
+  transition:background .2s,color .2s;white-space:nowrap;
+}
+.site-nav a.current{background:var(--accent);color:#05181c}
+.site-nav a:not(.current):hover{background:rgba(232,196,118,.18)}
+@media(max-width:640px){
+  .site-nav{top:14px;padding:4px 6px;max-width:92vw;overflow-x:auto}
+  .site-nav a{font-size:11px;padding:6px 10px}
+}
+
+/* ── Intestazioni di sezione ── */
+.sec-head{text-align:center;margin-bottom:3rem}
+.sec-head h2{font-family:'Playfair Display',serif;font-size:clamp(1.6rem,3vw,2.3rem);font-weight:700}
+.sec-head h2 em{color:var(--gold);font-style:italic}
+.sec-head p{margin-top:.4rem;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);opacity:.58}
+
+/* ── Tag pillole (competenze/skill) ── */
+.tags{display:flex;flex-wrap:wrap;gap:.45rem}
+.tag{background:var(--gold-dim);border:1px solid rgba(232,196,118,.25);color:var(--gold);padding:.25rem .8rem;border-radius:2rem;font-size:.72rem;letter-spacing:.04em}
+
+/* ── Card generica (skill/progetto) ── */
+.card-tile{background:rgba(255,255,255,.033);border:1px solid rgba(232,196,118,.1);border-radius:16px;padding:1.55rem;transition:transform .25s,border-color .25s}
+.card-tile:hover{transform:translateY(-5px);border-color:rgba(232,196,118,.32)}
+
+/* ── Pulsanti ── */
+.c-links{display:flex;justify-content:center;gap:1.1rem;flex-wrap:wrap}
+.c-btn{display:inline-flex;align-items:center;gap:.5rem;padding:.78rem 1.7rem;border-radius:3rem;font-size:.83rem;font-weight:500;letter-spacing:.04em;text-decoration:none;transition:transform .2s}
+.c-btn:hover{transform:translateY(-2px)}
+.btn-gold{background:var(--gold);color:#06111f;box-shadow:0 4px 20px rgba(232,196,118,.28)}
+.btn-out{background:transparent;color:var(--white);border:1px solid rgba(245,240,232,.22)}
+.btn-out:hover{border-color:var(--gold);color:var(--gold)}
+
+/* ── Contatti (sezione ripetuta su ogni pagina) ── */
+.contact{background:linear-gradient(180deg,#040c1a,#0b1c38);padding:6rem 2rem;text-align:center;border-top:1px solid rgba(232,196,118,.07)}
+.contact h2{font-family:'Playfair Display',serif;font-size:clamp(1.6rem,3vw,2.3rem)}
+.contact h2 em{color:var(--gold);font-style:italic}
+.contact p{color:var(--text);font-weight:300;margin:1rem 0 2.4rem;font-size:.98rem;max-width:56ch;margin-inline:auto}
+
+footer.site-footer{background:#020810;padding:1.3rem;text-align:center;font-size:.68rem;color:rgba(200,207,224,.28);letter-spacing:.1em}
+
+/* ── Fox chat widget — "Parla con Giorgio" (thefox-1fi.pages.dev) ── */
+#gg-chat-btn{
+  position:fixed;bottom:28px;right:28px;
+  width:62px;height:62px;border-radius:50%;
+  background:linear-gradient(135deg,#ff6b1a,#ff9d3d);
+  box-shadow:0 4px 20px rgba(255,107,26,.55),0 0 0 3px rgba(255,107,26,.2);
+  cursor:pointer;z-index:9999;
+  display:flex;align-items:center;justify-content:center;
+  font-size:28px;border:none;
+  transition:transform .2s,box-shadow .2s;
+  animation:ggPulse 2.5s ease-in-out infinite;
+}
+#gg-chat-btn:hover{transform:scale(1.1);box-shadow:0 6px 28px rgba(255,107,26,.7),0 0 0 5px rgba(255,107,26,.15)}
+@keyframes ggPulse{
+  0%,100%{box-shadow:0 4px 20px rgba(255,107,26,.55),0 0 0 3px rgba(255,107,26,.2)}
+  50%{box-shadow:0 4px 28px rgba(255,107,26,.8),0 0 0 8px rgba(255,107,26,.08)}
+}
+#gg-chat-popup{
+  position:fixed;bottom:104px;right:28px;
+  width:380px;height:580px;
+  border-radius:16px;overflow:hidden;
+  box-shadow:0 12px 50px rgba(0,0,0,.4),0 0 0 1px rgba(255,107,26,.2);
+  z-index:9998;display:none;
+  transform:scale(.92) translateY(12px);opacity:0;
+  transition:transform .25s cubic-bezier(.34,1.56,.64,1),opacity .2s ease;
+  transform-origin:bottom right;
+}
+#gg-chat-popup.open{display:block;transform:scale(1) translateY(0);opacity:1}
+#gg-chat-popup iframe{width:100%;height:100%;border:none}
+#gg-tooltip{
+  position:fixed;bottom:36px;right:100px;
+  background:rgba(15,8,4,.92);color:#ffcc88;
+  font-family:sans-serif;font-size:13px;
+  padding:7px 14px;border-radius:20px;
+  border:1px solid rgba(255,107,26,.3);
+  white-space:nowrap;z-index:9997;
+  pointer-events:none;opacity:0;transition:opacity .3s;
+}
+#gg-tooltip.show{opacity:1}
+@media(max-width:500px){
+  #gg-chat-popup{width:calc(100vw - 20px);height:75vh;right:10px;bottom:90px}
+}

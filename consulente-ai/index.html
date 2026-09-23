@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Consulente AI — Giorgio Griffani</title>
+<meta name="description" content="Progetto e costruisco sistemi di agenti AI che lavorano davvero. Giorgio Griffani, Roma.">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6195279906306523" crossorigin="anonymous"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/shared.css">
+<style>
+.pagehero{
+  min-height:64vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;
+  padding:9rem 2rem 4rem;
+  background:radial-gradient(120% 100% at 50% 0%,rgba(232,196,118,.16),transparent 60%),
+             linear-gradient(180deg,#050d1a 0%,#0b1c38 100%);
+}
+.pagehero .eyebrow{font-family:'Playfair Display',serif;font-style:italic;color:var(--gold);font-size:1.05rem;margin-bottom:1rem}
+.pagehero h1{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(2.2rem,6vw,4.2rem);line-height:1.05;max-width:18ch}
+.pagehero h1 em{color:var(--gold);font-style:italic}
+.pagehero .lede{margin-top:1.4rem;max-width:56ch;color:var(--text);font-size:1.02rem;line-height:1.7}
+
+.intro{max-width:760px;margin:0 auto;padding:5rem 2rem;text-align:center}
+.intro p{color:var(--text);font-weight:300;line-height:1.85;font-size:1rem;margin-bottom:1rem}
+.intro .tags{justify-content:center;margin-top:1.6rem}
+
+/* ── Demo dal vivo (widget volpe) ── */
+.demo{background:#06111f;padding:5rem 2rem;text-align:center}
+.demo-box{max-width:620px;margin:0 auto;background:rgba(255,107,26,.06);border:1px solid rgba(255,107,26,.25);border-radius:20px;padding:2.4rem 2rem}
+.demo-box h3{font-family:'Playfair Display',serif;font-size:1.3rem;margin-bottom:.8rem}
+.demo-box p{color:var(--text);font-weight:300;line-height:1.75;font-size:.92rem;margin-bottom:1.4rem}
+.demo-btn{display:inline-flex;align-items:center;gap:.6rem;background:linear-gradient(135deg,#ff6b1a,#ff9d3d);color:#1a0900;padding:.8rem 1.8rem;border-radius:3rem;font-weight:500;font-size:.9rem;text-decoration:none;cursor:pointer;border:none}
+
+.exp-section{background:#040c1a;padding:5rem 2rem}
+.exp-grid{max-width:640px;margin:0 auto}
+.exp-period{font-size:.64rem;letter-spacing:.14em;color:var(--gold);text-transform:uppercase;margin-bottom:.55rem}
+.exp-role{font-family:'Playfair Display',serif;font-size:1.02rem;font-weight:700;color:var(--white);margin-bottom:.22rem}
+.exp-company{font-size:.8rem;color:var(--text);margin-bottom:.65rem}
+.exp-desc{font-size:.78rem;font-weight:300;color:var(--text);line-height:1.6}
+
+.sk-section{background:#06111f;padding:5rem 2rem}
+.sk-grid{max-width:880px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1.2rem}
+.sk-card{text-align:center;padding:1.4rem}
+.sk-icon{font-size:1.9rem;margin-bottom:.65rem}
+.sk-name{font-family:'Playfair Display',serif;font-size:.95rem;color:var(--white);margin-bottom:.35rem}
+.sk-detail{font-size:.74rem;font-weight:300;color:var(--text);line-height:1.5}
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="/">HOME</a>
+  <a href="/consulente-ai/" class="current">CONSULENTE AI</a>
+  <a href="/event-manager/">EVENT MANAGER</a>
+  <a href="/videomaking/">VIDEOMAKING</a>
+</nav>
+
+<header class="pagehero">
+  <div class="eyebrow">🤖 Consulente AI</div>
+  <h1>Sistemi di agenti <em>che lavorano davvero</em></h1>
+  <p class="lede">Non demo, non slide: agenti AI che girano ogni giorno su un server vero, smistano posta, aggiornano CRM, scrivono documenti e si parlano fra loro — con reparti, responsabilità e controlli, come un'azienda in miniatura.</p>
+</header>
+
+<section class="intro">
+  <p>Vengo dai sistemi IT (freelance dal 2011: hardware, software, sicurezza) e dall'ingegneria meccanica — due mestieri che ti insegnano la stessa cosa: un sistema o regge sotto carico reale, o non vale niente. È l'approccio che porto nella progettazione di agenti AI.</p>
+  <p>Non costruisco un chatbot isolato: disegno l'architettura — chi fa cosa, chi controlla chi, dove sta la credenziale, cosa succede se un pezzo si rompe — e poi la faccio girare, ogni giorno, su un caso reale.</p>
+  <div class="tags">
+    <span class="tag">Sistemi multiagente</span>
+    <span class="tag">Automazione di processo</span>
+    <span class="tag">Integrazione API</span>
+    <span class="tag">Sicurezza e credenziali</span>
+    <span class="tag">Infrastruttura server</span>
+  </div>
+</section>
+
+<section class="demo">
+  <div class="demo-box">
+    <h3>Prova un agente vero, adesso</h3>
+    <p>Il bottone 🦊 in basso a destra apre uno degli agenti che ho costruito: parla con lui direttamente, qui, prima ancora di scrivermi.</p>
+    <button class="demo-btn" onclick="document.getElementById('gg-chat-btn').click()">🦊 Parla con Giorgio</button>
+  </div>
+</section>
+
+<section class="exp-section">
+  <div class="sec-head"><h2>Esperienza <em>sul campo</em></h2><p>Lavoro &amp; formazione</p></div>
+  <div class="exp-grid">
+    <div class="card-tile">
+      <div class="exp-period">Gen 2011 · Presente · 15+ anni</div>
+      <div class="exp-role">Specialista Informatico</div>
+      <div class="exp-company">Freelance · Italia</div>
+      <div class="exp-desc">Progettazione, assemblaggio e manutenzione hardware/software per privati. Soluzioni personalizzate, implementazione sicurezza con riduzione vulnerabilità del 30%.</div>
+    </div>
+  </div>
+</section>
+
+<section class="sk-section">
+  <div class="sec-head"><h2>Come posso <em>aiutarti</em></h2><p>Ambiti di consulenza</p></div>
+  <div class="sk-grid">
+    <div class="card-tile sk-card"><div class="sk-icon">🧩</div><div class="sk-name">Architettura di sistemi AI</div><div class="sk-detail">Chi fa cosa, chi controlla chi: reparti di agenti pensati come un'organizzazione vera</div></div>
+    <div class="card-tile sk-card"><div class="sk-icon">🔌</div><div class="sk-name">Integrazione API</div><div class="sk-detail">CRM, email, calendari, documenti: collegati fra loro senza lavoro manuale</div></div>
+    <div class="card-tile sk-card"><div class="sk-icon">🔐</div><div class="sk-name">Sicurezza e credenziali</div><div class="sk-detail">Vault cifrati, permessi minimi, isolamento fra servizi diversi</div></div>
+    <div class="card-tile sk-card"><div class="sk-icon">💻</div><div class="sk-name">Infrastruttura server</div><div class="sk-detail">Dalla VM al cron: dove far girare gli agenti, senza spese inutili</div></div>
+  </div>
+</section>
+
+<section class="contact">
+  <h2>Hai un processo da <em>automatizzare?</em></h2>
+  <p>Raccontami cosa fai oggi a mano, e cosa vorresti non dover più pensarci. Ti dico se un agente AI ha davvero senso per quel caso.</p>
+  <div class="c-links">
+    <a href="https://www.linkedin.com/in/giorgio-griffani-6590bb209/" class="c-btn btn-gold" target="_blank" rel="noopener">Scrivimi su LinkedIn</a>
+    <a href="/" class="c-btn btn-out">← Torna alla home</a>
+  </div>
+</section>
+<footer class="site-footer">© 2026 Giorgio Griffani · Roma · Consulente AI</footer>
+
+<div id="gg-tooltip">Parla con Giorgio 🦊</div>
+<button id="gg-chat-btn" aria-label="Apri chat con Giorgio">🦊</button>
+<div id="gg-chat-popup">
+  <iframe id="gg-iframe" src="" data-src="https://thefox-1fi.pages.dev/"
+    allow="clipboard-write" loading="lazy" title="Parla con Giorgio"></iframe>
+</div>
+<script src="/assets/fox-widget.js"></script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Altri progetti — Giorgio Griffani</title>
+<meta name="description" content="Progetti paralleli di Giorgio Griffani: escape room, fotografia per affitti brevi e altre cose in corso.">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6195279906306523" crossorigin="anonymous"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/shared.css">
+<style>
+.pagehero{
+  min-height:44vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;
+  padding:9rem 2rem 3rem;
+  background:linear-gradient(180deg,#050d1a 0%,#0b1c38 100%);
+}
+.pagehero h1{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(2rem,5.5vw,3.4rem)}
+.pagehero h1 em{color:var(--gold);font-style:italic}
+.pagehero .lede{margin-top:1.2rem;max-width:56ch;color:var(--text);font-size:1rem;line-height:1.7}
+
+.grid-section{padding:2rem 2rem 6rem}
+.proj-grid{max-width:960px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.4rem}
+.proj-card{
+  display:flex;flex-direction:column;gap:.8rem;text-decoration:none;
+  background:rgba(255,255,255,.033);border:1px solid rgba(232,196,118,.12);
+  border-radius:18px;padding:1.8rem;transition:transform .25s,border-color .25s;
+}
+.proj-card:hover{transform:translateY(-5px);border-color:rgba(232,196,118,.32)}
+.proj-card .status{display:inline-block;align-self:flex-start;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);background:var(--gold-dim);border:1px solid rgba(232,196,118,.25);border-radius:2rem;padding:.15rem .7rem}
+.proj-card h3{font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--white)}
+.proj-card p{font-size:.86rem;font-weight:300;color:var(--text);line-height:1.65}
+.proj-card .go{font-size:.76rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin-top:.3rem}
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="/">HOME</a>
+  <a href="/consulente-ai/">CONSULENTE AI</a>
+  <a href="/event-manager/">EVENT MANAGER</a>
+  <a href="/videomaking/">VIDEOMAKING</a>
+</nav>
+
+<header class="pagehero">
+  <h1>Altri <em>progetti</em></h1>
+  <p class="lede">Cose che tengo in piedi in parallelo al lavoro con i clienti — alcune già attive, altre ancora in scrittura.</p>
+</header>
+
+<section class="grid-section">
+  <div class="proj-grid">
+
+    <a class="proj-card" href="/escape/" target="_blank" rel="noopener">
+      <span class="status">In corso</span>
+      <h3>🦊 La Volpe &amp; l'Enigma</h3>
+      <p>Escape room d'autore, firmate "La Volpe". Prima stanza pronta — Avventura Botanica, piante mutanti in un laboratorio invaso — altre cinque in scrittura.</p>
+      <span class="go">Entra nella tana →</span>
+    </a>
+
+    <a class="proj-card" href="/scattoromano/" target="_blank" rel="noopener">
+      <span class="status">Attivo</span>
+      <h3>📷 Scatto Romano</h3>
+      <p>Una fotocamera lasciata in camera per chi soggiorna a Roma: la usi durante il soggiorno, noi sviluppiamo e mandiamo le foto migliori.</p>
+      <span class="go">Scopri come funziona →</span>
+    </a>
+
+    <a class="proj-card" href="https://nonnamaria.giorgiogriffani.it" target="_blank" rel="noopener">
+      <span class="status">Attivo</span>
+      <h3>📚 Nonna Maria</h3>
+      <p>Chatbot educativo per bambini delle elementari: risponde solo in base a una biografia, con codice d'accesso condiviso dall'insegnante.</p>
+      <span class="go">Vai al progetto →</span>
+    </a>
+
+  </div>
+</section>
+
+<footer class="site-footer">© 2026 Giorgio Griffani · Roma</footer>
+
+<div id="gg-tooltip">Parla con Giorgio 🦊</div>
+<button id="gg-chat-btn" aria-label="Apri chat con Giorgio">🦊</button>
+<div id="gg-chat-popup">
+  <iframe id="gg-iframe" src="" data-src="https://thefox-1fi.pages.dev/"
+    allow="clipboard-write" loading="lazy" title="Parla con Giorgio"></iframe>
+</div>
+<script src="/assets/fox-widget.js"></script>
+</body>
+</html>
