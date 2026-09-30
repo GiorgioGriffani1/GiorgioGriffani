@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gestionale aziendale AI — Giorgio Griffani</title>
+<meta name="description" content="Un sistema di agenti AI che affianca i reparti di un'azienda di eventi: segreteria, commerciale, produzione, documenti e controllo scadenze. Caso reale, in funzione ogni giorno.">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6195279906306523" crossorigin="anonymous"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/shared.css">
+<style>
+.pagehero{
+  min-height:60vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;
+  padding:9rem 2rem 4rem;
+  background:radial-gradient(120% 100% at 50% 0%,rgba(232,196,118,.16),transparent 60%),
+             linear-gradient(180deg,#050d1a 0%,#0b1c38 100%);
+}
+.pagehero .eyebrow{font-family:'Playfair Display',serif;font-style:italic;color:var(--gold);font-size:1.05rem;margin-bottom:1rem}
+.pagehero h1{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(2.1rem,5.6vw,3.9rem);line-height:1.06;max-width:19ch}
+.pagehero h1 em{color:var(--gold);font-style:italic}
+.pagehero .lede{margin-top:1.4rem;max-width:58ch;color:var(--text);font-size:1.02rem;line-height:1.7}
+
+.intro{max-width:760px;margin:0 auto;padding:5rem 2rem 4rem}
+.intro p{color:var(--text);font-weight:300;line-height:1.85;font-size:1rem;margin-bottom:1rem}
+.intro .tags{justify-content:center;margin-top:1.8rem}
+.pull{border-left:2px solid var(--gold);padding-left:1.3rem;margin:2.2rem 0;
+  font-family:'Playfair Display',serif;font-style:italic;font-size:1.14rem;color:var(--white);line-height:1.6}
+
+/* ── Schema della rete ── */
+.rete{background:#06111f;padding:4.5rem 1.2rem 5rem}
+.rete-wrap{max-width:1000px;margin:0 auto}
+.rete-svg{display:block;width:100%;height:auto;max-height:70vh;margin:0 auto}
+.aree-mobile{display:none}
+@media(max-width:700px){
+  .rete-svg .area-label{display:none}
+  .aree-mobile{display:grid;grid-template-columns:1fr 1fr;gap:.5rem .9rem;
+    max-width:340px;margin:1.3rem auto 0;padding:0 .5rem}
+  .aree-mobile div{font-size:.76rem;color:var(--text);font-weight:300;display:flex;
+    justify-content:space-between;gap:.5rem;border-bottom:1px solid rgba(232,196,118,.12);padding-bottom:.3rem}
+  .aree-mobile b{font-weight:500;color:var(--white)}
+  .aree-mobile span{color:var(--gold);opacity:.8;white-space:nowrap}
+}
+.legenda{display:flex;justify-content:center;flex-wrap:wrap;gap:1.6rem;margin-top:1.8rem;padding:0 1rem}
+.leg{display:flex;align-items:center;gap:.55rem;font-size:.78rem;color:var(--text);font-weight:300}
+.leg i{display:inline-block;border-radius:50%;flex-shrink:0}
+.leg .l-dir{width:14px;height:14px;background:#e8c476}
+.leg .l-capo{width:10px;height:10px;background:#cbd5e6}
+.leg .l-op{width:7px;height:7px;background:#7f93b3}
+.leg .l-line{width:22px;height:0;border-top:1px solid rgba(232,196,118,.5);border-radius:0}
+.rete-nota{max-width:60ch;margin:1.6rem auto 0;text-align:center;font-size:.82rem;
+  color:var(--text);opacity:.72;font-weight:300;line-height:1.7}
+
+/* ── Reparti ── */
+.rep-section{background:#040c1a;padding:5rem 2rem}
+.rep-grid{max-width:980px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(265px,1fr));gap:1.3rem}
+.rep-card{padding:1.7rem}
+.rep-icon{font-size:1.7rem;margin-bottom:.7rem}
+.rep-name{font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--white);margin-bottom:.15rem}
+.rep-count{font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);opacity:.7;margin-bottom:.6rem}
+.rep-desc{font-size:.84rem;font-weight:300;color:var(--text);line-height:1.68}
+
+/* ── AI vs deterministico ── */
+.split-section{background:#06111f;padding:5rem 2rem}
+.split-wrap{max-width:900px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:1.4rem}
+@media(max-width:760px){.split-wrap{grid-template-columns:1fr}}
+.split-box{padding:1.9rem;border-radius:16px;border:1px solid rgba(232,196,118,.14);background:rgba(255,255,255,.028)}
+.split-box h3{font-family:'Playfair Display',serif;font-size:1.12rem;color:var(--white);margin-bottom:.2rem}
+.split-box .sub{font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);opacity:.75;margin-bottom:.9rem}
+.split-box p{font-size:.87rem;font-weight:300;color:var(--text);line-height:1.72}
+
+/* ── Principi ── */
+.arch{background:#040c1a;padding:5rem 2rem}
+.arch-wrap{max-width:820px;margin:0 auto}
+.principio{display:flex;gap:1.1rem;align-items:flex-start;padding:1.4rem 0;border-bottom:1px solid rgba(232,196,118,.1)}
+.principio:last-child{border-bottom:none}
+.principio .n{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--gold);line-height:1;min-width:2.1rem;opacity:.7}
+.principio h3{font-family:'Playfair Display',serif;font-size:1rem;color:var(--white);margin-bottom:.35rem}
+.principio p{font-size:.86rem;font-weight:300;color:var(--text);line-height:1.7}
+
+.nums{background:#06111f;padding:4rem 2rem;border-top:1px solid rgba(232,196,118,.07)}
+.nums-grid{max-width:880px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:1.2rem;text-align:center}
+.num strong{display:block;font-family:'Playfair Display',serif;font-size:2.2rem;color:var(--gold);line-height:1}
+.num span{display:block;margin-top:.45rem;font-size:.75rem;color:var(--text);letter-spacing:.03em;line-height:1.5}
+.nota{max-width:700px;margin:0 auto;padding:3rem 2rem 0;text-align:center}
+.nota p{font-size:.79rem;color:var(--text);opacity:.6;line-height:1.7;font-weight:300}
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="/">HOME</a>
+  <a href="/consulente-ai/">CONSULENTE AI</a>
+  <a href="/event-manager/">EVENT MANAGER</a>
+  <a href="/videomaking/">VIDEOMAKING</a>
+</nav>
+
+<header class="pagehero">
+  <div class="eyebrow">⚙️ Gestionale aziendale</div>
+  <h1>Un'azienda che <em>si manda avanti da sola</em></h1>
+  <p class="lede">Un sistema di agenti che affianca i reparti di un'azienda di eventi — segreteria,
+    commerciale, produzione — e ogni mattina arriva al lavoro prima delle persone. Non è un prototipo:
+    gira tutti i giorni su un caso reale.</p>
+</header>
+
+<section class="intro">
+  <p>In un'azienda il lavoro non si perde nelle cose difficili. Si perde nelle giunzioni: la mail che
+    nessuno ha ripreso, il preventivo fermo da tre settimane, il documento compilato a metà, la cosa
+    che qualcuno "dava per fatta".</p>
+  <p>Nessuno di questi è un problema di competenza. Sono problemi di <em>sorveglianza</em>: qualcuno
+    dovrebbe guardare tutto, tutti i giorni, senza dimenticare niente. È esattamente il lavoro che una
+    persona odia fare e che una macchina fa bene.</p>
+
+  <div class="pull">Così ho smesso di pensarlo come un software e ho iniziato a disegnarlo come un
+    organigramma: direttori, capi reparto, operativi. Ognuno con un compito stretto e il permesso di
+    toccare una cosa sola.</div>
+
+  <p>Un direttore d'area decide chi serve e chiama solo quello. I capi reparto coordinano. Gli operativi
+    fanno un mestiere ciascuno e non sanno fare altro. Nessun agente tuttofare, nessuna scatola nera:
+    quando qualcosa esce storto, si sa già dove guardare.</p>
+
+  <div class="tags">
+    <span class="tag">Sistemi multiagente</span>
+    <span class="tag">Automazione di processo</span>
+    <span class="tag">Integrazione CRM e documentale</span>
+    <span class="tag">Infrastruttura server</span>
+    <span class="tag">Sicurezza e credenziali</span>
+  </div>
+</section>
+
+<section class="rete">
+  <div class="rete-wrap">
+    <div class="sec-head"><h2>La rete <em>che gira</em></h2><p>Schema del sistema</p></div>
+
+<svg class="rete-svg" viewBox="0 0 940 612" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Schema della rete di agenti: cinque aree, tre livelli di gerarchia">
+  <line x1="470.0" y1="302.0" x2="408.2" y2="201.5" stroke="rgba(232,196,118,.20)" stroke-width="1.1"/>
+  <line x1="408.2" y1="201.5" x2="304.8" y2="216.5" stroke="rgba(232,196,118,.20)" stroke-width=".9"/>
+  <line x1="408.2" y1="201.5" x2="322.9" y2="188.2" stroke="rgba(232,196,118,.20)" stroke-width=".9"/>
+  <line x1="408.2" y1="201.5" x2="345.7" y2="163.6" stroke="rgba(232,196,118,.20)" stroke-width=".9"/>
+  <line x1="408.2" y1="201.5" x2="372.6" y2="143.5" stroke="rgba(232,196,118,.20)" stroke-width=".9"/>
+  <line x1="408.2" y1="201.5" x2="402.7" y2="128.6" stroke="rgba(232,196,118,.20)" stroke-width=".9"/>
+  <line x1="408.2" y1="201.5" x2="435.0" y2="119.3" stroke="rgba(232,196,118,.20)" stroke-width=".9"/>
+  <line x1="408.2" y1="201.5" x2="468.4" y2="116.0" stroke="rgba(232,196,118,.20)" stroke-width=".9"/>
+  <line x1="304.8" y1="216.5" x2="223.7" y2="272.9" stroke="rgba(232,196,118,.12)" stroke-width=".7"/>
+  <circle cx="223.7" cy="272.9" r="3.1" fill="#7f93b3" opacity=".85"/>
+  <line x1="304.8" y1="216.5" x2="228.6" y2="245.4" stroke="rgba(232,196,118,.12)" stroke-width=".7"/>
+  <circle cx="228.6" cy="245.4" r="3.1" fill="#7f93b3" opacity=".85"/>
+  <line x1="304.8" y1="216.5" x2="236.5" y2="218.6" stroke="rgba(232,196,118,.12)" stroke-width=".7"/>
+  <circle cx="236.5" cy="218.6" r="3.1" fill="#7f93b3" opacity=".85"/>
+  <line x1="304.8" y1="216.5" x2="247.3" y2="192.8" stroke="rgba(232,196,118,.12)" stroke-width=".7"/>
+  <circle cx="247.3" cy="192.8" r="3.1" fill="#7f93b3" opacity=".85"/>
+  <line x1="322.9" y1="188.2" x2="261.0" y2="168.4" stroke="rgba(232,196,118,.12)" stroke-width=".7"/>
+  <circle cx="261.0" cy="168.4" r="3.1" fill="#7f93b3" opacity=".85"/>
+  <line x1="322.9" y1="188.2" x2="277.4" y2="145.8" stroke="rgba(232,196,118,.12)" stroke-width=".7"/>
+  <circle cx="277.4" cy="145.8" r="3.1" fill="#7f93b3" opacity=".85"/>
+  <line x1="345.7" y1="163.6" x2="296.2" y2="125.1" stroke="rgba(232,196,118,.12)" stroke-width=".7"/>
+  <circle cx="296.2" cy="125.1" r="3.1" fill="#7f93b3" opacity=".85"/>
+  <line x1="345.7" y1="163.6" x2="317.2" y2="106.6" stroke="rgba(232,196,118,.12)" stroke-width=".7"/>
+  <circle cx="317.2" cy="106.6" r="3.1" fill="#7f93b3" opacity=".85"/>
+  <line x1="372.6" y1="143.5" x2="340.2" y2="90.7" stroke="rgba(232,196,118,.12)" stroke-width=".7"/>
+  <circle cx="340.2" cy="90.7" r="3.1" fill="#7f93b3" opacity=".85"/>
+  <line x1="402.7" y1="128.6" x2="364.8" y2="77.4" stroke="rgba(232,196,118,.12)" stroke-width=".7"/>
+  <circle cx="364.8" cy="77.4" r="3.1" fill="#7f93b3" opacity=".85"/>
+  <line x1="402.7" y1="128.6" x2="390.7" y2="67.0" stroke="rgba(232,196,118,.12)" stroke-width=".7"/>
+  <circle cx="390.7" cy="67.0" r="3.1" fill="#7f93b3" opacity=".85"/>
+  <line x1="435.0" y1="119.3" x2="417.7" y2="59.6" stroke="rgba(232,196,118,.12)" stroke-width=".7"/>
+  <circle cx="417.7" cy="59.6" r="3.1" fill="#7f93b3" opacity=".85"/>
+  <line x1="435.0" y1="119.3" x2="445.3" y2="55.2" stroke="rgba(232,196,118,.12)" stroke-width=".7"/>
+  <circle cx="445.3" cy="55.2" r="3.1" fill="#7f93b3" opacity=".85"/>
+  <line x1="468.4" y1="116.0" x2="473.2" y2="54.0" stroke="rgba(232,196,118,.12)" stroke-width=".7"/>
+  <circle cx="473.2" cy="54.0" r="3.1" fill="#7f93b3" opacity=".85"/>
+  <line x1="468.4" y1="116.0" x2="501.1" y2="56.0" stroke="rgba(232,196,118,.12)" stroke-width=".7"/>
+  <circle cx="501.1" cy="56.0" r="3.1" fill="#7f93b3" opacity=".85"/>
+  <line x1="468.4" y1="116.0" x2="528.6" y2="61.0" stroke="rgba(232,196,118,.12)" stroke-width=".7"/>
+  <circle cx="528.6" cy="61.0" r="3.1" fill="#7f93b3" opacity=".85"/>
+  <line x1="468.4" y1="116.0" x2="555.4" y2="69.2" stroke="rgba(232,196,118,.12)" stroke-width=".7"/>
+  <circle cx="555.4" cy="69.2" r="3.1" fill="#7f93b3" opacity=".85"/>
+  <circle cx="304.8" cy="216.5" r="5.4" fill="#cbd5e6"/>
+  <circle cx="322.9" cy="188.2" r="5.4" fill="#cbd5e6"/>
+  <circle cx="345.7" cy="163.6" r="5.4" fill="#cbd5e6"/>
+  <circle cx="372.6" cy="143.5" r="5.4" fill="#cbd5e6"/>
+  <circle cx="402.7" cy="128.6" r="5.4" fill="#cbd5e6"/>
+  <circle cx="435.0" cy="119.3" r="5.4" fill="#cbd5e6"/>
+  <circle cx="468.4" cy="116.0" r="5.4" fill="#cbd5e6"/>
+  <circle cx="408.2" cy="201.5" r="9" fill="#e8c476"/>
+  <text class="area-label" x="324.5" y="65.1" text-anchor="end" fill="#f5f0e8" font-size="13" font-family="Playfair Display,serif" dominant-baseline="middle">Produzione</text>
+  <text class="area-label" x="324.5" y="81.1" text-anchor="end" fill="#7f93b3" font-size="10.5" font-family="DM Sans,sans-serif" dominant-baseline="middle">25 agenti</text>
+  <line x1="470.0" y1="302.0" x2="581.4" y2="263.0" stroke="rgba(232,196,118,.20)" stroke-width="1.1"/>
+  <line x1="581.4" y1="263.0" x2="616.4" y2="187.3" stroke="rgba(232,196,118,.20)" stroke-width=".9"/>
+  <line x1="581.4" y1="263.0" x2="633.2" y2="212.7" stroke="rgba(232,196,118,.20)" stroke-width=".9"/>
+  <line x1="581.4" y1="263.0" x2="645.5" y2="240.5" stroke="rgba(232,196,118,.20)" stroke-width=".9"/>
+  <line x1="581.4" y1="263.0" x2="653.2" y2="269.9" stroke="rgba(232,196,118,.20)" stroke-width=".9"/>
+  <line x1="581.4" y1="263.0" x2="656.0" y2="300.2" stroke="rgba(232,196,118,.20)" stroke-width=".9"/>
+  <line x1="616.4" y1="187.3" x2="624.0" y2="107.6" stroke="rgba(232,196,118,.12)" stroke-width=".7"/>
+  <circle cx="624.0" cy="107.6" r="3.1" fill="#7f93b3" opacity=".85"/>
+  <line x1="616.4" y1="187.3" x2="644.9" y2="126.1" stroke="rgba(232,196,118,.12)" stroke-width=".7"/>
+  <circle cx="644.9" cy="126.1" r="3.1" fill="#7f93b3" opacity=".85"/>
+  <line x1="616.4" y1="187.3" x2="663.5" y2="146.9" stroke="rgba(232,196,118,.12)" stroke-width=".7"/>
+  <circle cx="663.5" cy="146.9" r="3.1" fill="#7f93b3" opacity=".85"/>
+  <line x1="633.2" y1="212.7" x2="679.8" y2="169.7" stroke="rgba(232,196,118,.12)" stroke-width=".7"/>
+  <circle cx="679.8" cy="169.7" r="3.1" fill="#7f93b3" opacity=".85"/>
+  <line x1="633.2" y1="212.7" x2="693.3" y2="194.2" stroke="rgba(232,196,118,.12)" stroke-width=".7"/>
+  <circle cx="693.3" cy="194.2" r="3.1" fill="#7f93b3" opacity=".85"/>
+  <line x1="645.5" y1="240.5" x2="704.0" y2="220.0" stroke="rgba(232,196,118,.12)" stroke-width=".7"/>
+  <circle cx="704.0" cy="220.0" r="3.1" fill="#7f93b3" opacity=".85"/>
+  <line x1="653.2" y1="269.9" x2="711.8" y2="246.8" stroke="rgba(232,196,118,.12)" stroke-width=".7"/>
+  <circle cx="711.8" cy="246.8" r="3.1" fill="#7f93b3" opacity=".85"/>
+  <line x1="653.2" y1="269.9" x2="716.5" y2="274.4" stroke="rgba(232,196,118,.12)" stroke-width=".7"/>
+  <circle cx="716.5" cy="274.4" r="3.1" fill="#7f93b3" opacity=".85"/>
+  <line x1="656.0" y1="300.2" x2="718.0" y2="302.3" stroke="rgba(232,196,118,.12)" stroke-width=".7"/>
+  <circle cx="718.0" cy="302.3" r="3.1" fill="#7f93b3" opacity=".85"/>
+  <line x1="656.0" y1="300.2" x2="716.4" y2="330.2" stroke="rgba(232,196,118,.12)" stroke-width=".7"/>
+  <circle cx="716.4" cy="330.2" r="3.1" fill="#7f93b3" opacity=".85"/>
+  <line x1="656.0" y1="300.2" x2="711.6" y2="357.8" stroke="rgba(232,196,118,.12)" stroke-width=".7"/>
+  <circle cx="711.6" cy="357.8" r="3.1" fill="#7f93b3" opacity=".85"/>
+  <circle cx="616.4" cy="187.3" r="5.4" fill="#cbd5e6"/>
+  <circle cx="633.2" cy="212.7" r="5.4" fill="#cbd5e6"/>
+  <circle cx="645.5" cy="240.5" r="5.4" fill="#cbd5e6"/>
+  <circle cx="653.2" cy="269.9" r="5.4" fill="#cbd5e6"/>
+  <circle cx="656.0" cy="300.2" r="5.4" fill="#cbd5e6"/>
+  <circle cx="581.4" cy="263.0" r="9" fill="#e8c476"/>
+  <text class="area-label" x="732.4" y="210.1" text-anchor="start" fill="#f5f0e8" font-size="13" font-family="Playfair Display,serif" dominant-baseline="middle">Commerciale</text>
+  <text class="area-label" x="732.4" y="226.1" text-anchor="start" fill="#7f93b3" font-size="10.5" font-family="DM Sans,sans-serif" dominant-baseline="middle">17 agenti</text>
+  <line x1="470.0" y1="302.0" x2="542.6" y2="395.0" stroke="rgba(232,196,118,.20)" stroke-width="1.1"/>
+  <line x1="542.6" y1="395.0" x2="614.1" y2="419.6" stroke="rgba(232,196,118,.20)" stroke-width=".9"/>
+  <line x1="542.6" y1="395.0" x2="595.1" y2="439.7" stroke="rgba(232,196,118,.20)" stroke-width=".9"/>
+  <line x1="542.6" y1="395.0" x2="573.3" y2="456.7" stroke="rgba(232,196,118,.20)" stroke-width=".9"/>
+  <line x1="542.6" y1="395.0" x2="549.2" y2="470.3" stroke="rgba(232,196,118,.20)" stroke-width=".9"/>
+  <line x1="614.1" y1="419.6" x2="686.1" y2="423.7" stroke="rgba(232,196,118,.12)" stroke-width=".7"/>
+  <circle cx="686.1" cy="423.7" r="3.1" fill="#7f93b3" opacity=".85"/>
+  <line x1="614.1" y1="419.6" x2="671.0" y2="447.2" stroke="rgba(232,196,118,.12)" stroke-width=".7"/>
+  <circle cx="671.0" cy="447.2" r="3.1" fill="#7f93b3" opacity=".85"/>
+  <line x1="614.1" y1="419.6" x2="653.4" y2="468.9" stroke="rgba(232,196,118,.12)" stroke-width=".7"/>
+  <circle cx="653.4" cy="468.9" r="3.1" fill="#7f93b3" opacity=".85"/>
+  <line x1="595.1" y1="439.7" x2="633.5" y2="488.5" stroke="rgba(232,196,118,.12)" stroke-width=".7"/>
+  <circle cx="633.5" cy="488.5" r="3.1" fill="#7f93b3" opacity=".85"/>
+  <line x1="573.3" y1="456.7" x2="611.4" y2="505.7" stroke="rgba(232,196,118,.12)" stroke-width=".7"/>
+  <circle cx="611.4" cy="505.7" r="3.1" fill="#7f93b3" opacity=".85"/>
+  <line x1="549.2" y1="470.3" x2="587.6" y2="520.3" stroke="rgba(232,196,118,.12)" stroke-width=".7"/>
+  <circle cx="587.6" cy="520.3" r="3.1" fill="#7f93b3" opacity=".85"/>
+  <line x1="549.2" y1="470.3" x2="562.3" y2="532.2" stroke="rgba(232,196,118,.12)" stroke-width=".7"/>
+  <circle cx="562.3" cy="532.2" r="3.1" fill="#7f93b3" opacity=".85"/>
+  <line x1="549.2" y1="470.3" x2="535.8" y2="541.1" stroke="rgba(232,196,118,.12)" stroke-width=".7"/>
+  <circle cx="535.8" cy="541.1" r="3.1" fill="#7f93b3" opacity=".85"/>
+  <circle cx="614.1" cy="419.6" r="5.4" fill="#cbd5e6"/>
+  <circle cx="595.1" cy="439.7" r="5.4" fill="#cbd5e6"/>
+  <circle cx="573.3" cy="456.7" r="5.4" fill="#cbd5e6"/>
+  <circle cx="549.2" cy="470.3" r="5.4" fill="#cbd5e6"/>
+  <circle cx="542.6" cy="395.0" r="9" fill="#e8c476"/>
+  <text class="area-label" x="641.2" y="521.1" text-anchor="start" fill="#f5f0e8" font-size="13" font-family="Playfair Display,serif" dominant-baseline="middle">Segreteria</text>
+  <text class="area-label" x="641.2" y="537.1" text-anchor="start" fill="#7f93b3" font-size="10.5" font-family="DM Sans,sans-serif" dominant-baseline="middle">13 agenti</text>
+  <line x1="470.0" y1="302.0" x2="430.5" y2="413.2" stroke="rgba(232,196,118,.20)" stroke-width="1.1"/>
+  <line x1="430.5" y1="413.2" x2="438.9" y2="485.4" stroke="rgba(232,196,118,.20)" stroke-width=".9"/>
+  <line x1="430.5" y1="413.2" x2="407.7" y2="477.3" stroke="rgba(232,196,118,.20)" stroke-width=".9"/>
+  <line x1="430.5" y1="413.2" x2="378.4" y2="463.9" stroke="rgba(232,196,118,.20)" stroke-width=".9"/>
+  <line x1="438.9" y1="485.4" x2="469.2" y2="550.0" stroke="rgba(232,196,118,.12)" stroke-width=".7"/>
+  <circle cx="469.2" cy="550.0" r="3.1" fill="#7f93b3" opacity=".85"/>
+  <line x1="438.9" y1="485.4" x2="441.3" y2="548.3" stroke="rgba(232,196,118,.12)" stroke-width=".7"/>
+  <circle cx="441.3" cy="548.3" r="3.1" fill="#7f93b3" opacity=".85"/>
+  <line x1="438.9" y1="485.4" x2="413.8" y2="543.5" stroke="rgba(232,196,118,.12)" stroke-width=".7"/>
+  <circle cx="413.8" cy="543.5" r="3.1" fill="#7f93b3" opacity=".85"/>
+  <line x1="407.7" y1="477.3" x2="387.0" y2="535.7" stroke="rgba(232,196,118,.12)" stroke-width=".7"/>
+  <circle cx="387.0" cy="535.7" r="3.1" fill="#7f93b3" opacity=".85"/>
+  <line x1="378.4" y1="463.9" x2="361.2" y2="524.9" stroke="rgba(232,196,118,.12)" stroke-width=".7"/>
+  <circle cx="361.2" cy="524.9" r="3.1" fill="#7f93b3" opacity=".85"/>
+  <line x1="378.4" y1="463.9" x2="336.8" y2="511.2" stroke="rgba(232,196,118,.12)" stroke-width=".7"/>
+  <circle cx="336.8" cy="511.2" r="3.1" fill="#7f93b3" opacity=".85"/>
+  <line x1="378.4" y1="463.9" x2="314.1" y2="494.9" stroke="rgba(232,196,118,.12)" stroke-width=".7"/>
+  <circle cx="314.1" cy="494.9" r="3.1" fill="#7f93b3" opacity=".85"/>
+  <circle cx="438.9" cy="485.4" r="5.4" fill="#cbd5e6"/>
+  <circle cx="407.7" cy="477.3" r="5.4" fill="#cbd5e6"/>
+  <circle cx="378.4" cy="463.9" r="5.4" fill="#cbd5e6"/>
+  <circle cx="430.5" cy="413.2" r="9" fill="#e8c476"/>
+  <text class="area-label" x="376.9" y="564.0" text-anchor="end" fill="#f5f0e8" font-size="13" font-family="Playfair Display,serif" dominant-baseline="middle">Controllo scadenze</text>
+  <text class="area-label" x="376.9" y="580.0" text-anchor="end" fill="#7f93b3" font-size="10.5" font-family="DM Sans,sans-serif" dominant-baseline="middle">11 agenti</text>
+  <line x1="470.0" y1="302.0" x2="361.5" y2="348.5" stroke="rgba(232,196,118,.20)" stroke-width="1.1"/>
+  <line x1="361.5" y1="348.5" x2="309.4" y2="395.8" stroke="rgba(232,196,118,.20)" stroke-width=".9"/>
+  <line x1="361.5" y1="348.5" x2="299.0" y2="375.2" stroke="rgba(232,196,118,.20)" stroke-width=".9"/>
+  <line x1="361.5" y1="348.5" x2="291.3" y2="353.5" stroke="rgba(232,196,118,.20)" stroke-width=".9"/>
+  <line x1="309.4" y1="395.8" x2="269.7" y2="448.2" stroke="rgba(232,196,118,.12)" stroke-width=".7"/>
+  <circle cx="269.7" cy="448.2" r="3.1" fill="#7f93b3" opacity=".85"/>
+  <line x1="309.4" y1="395.8" x2="254.5" y2="424.7" stroke="rgba(232,196,118,.12)" stroke-width=".7"/>
+  <circle cx="254.5" cy="424.7" r="3.1" fill="#7f93b3" opacity=".85"/>
+  <line x1="299.0" y1="375.2" x2="242.0" y2="399.6" stroke="rgba(232,196,118,.12)" stroke-width=".7"/>
+  <circle cx="242.0" cy="399.6" r="3.1" fill="#7f93b3" opacity=".85"/>
+  <line x1="291.3" y1="353.5" x2="232.5" y2="373.4" stroke="rgba(232,196,118,.12)" stroke-width=".7"/>
+  <circle cx="232.5" cy="373.4" r="3.1" fill="#7f93b3" opacity=".85"/>
+  <line x1="291.3" y1="353.5" x2="226.0" y2="346.2" stroke="rgba(232,196,118,.12)" stroke-width=".7"/>
+  <circle cx="226.0" cy="346.2" r="3.1" fill="#7f93b3" opacity=".85"/>
+  <circle cx="309.4" cy="395.8" r="5.4" fill="#cbd5e6"/>
+  <circle cx="299.0" cy="375.2" r="5.4" fill="#cbd5e6"/>
+  <circle cx="291.3" cy="353.5" r="5.4" fill="#cbd5e6"/>
+  <circle cx="361.5" cy="348.5" r="9" fill="#e8c476"/>
+  <text class="area-label" x="214.5" y="411.5" text-anchor="end" fill="#f5f0e8" font-size="13" font-family="Playfair Display,serif" dominant-baseline="middle">Documenti</text>
+  <text class="area-label" x="214.5" y="427.5" text-anchor="end" fill="#7f93b3" font-size="10.5" font-family="DM Sans,sans-serif" dominant-baseline="middle">9 agenti</text>
+  <circle cx="470.0" cy="302.0" r="40" fill="rgba(232,196,118,.07)" stroke="#e8c476" stroke-width="1.2"/>
+  <text x="470.0" y="299.0" text-anchor="middle" fill="#e8c476" font-size="13" font-family="Playfair Display,serif">Plancia</text>
+  <text x="470.0" y="315.0" text-anchor="middle" fill="#7f93b3" font-size="9.5" font-family="DM Sans,sans-serif">il quadro comune</text>
+</svg>
+
+
+    <div class="aree-mobile">
+      <div><b>Produzione</b><span>25</span></div>
+      <div><b>Commerciale</b><span>17</span></div>
+      <div><b>Segreteria</b><span>13</span></div>
+      <div><b>Scadenze</b><span>11</span></div>
+      <div><b>Documenti</b><span>9</span></div>
+      <div><b>Plancia</b><span>centro</span></div>
+    </div>
+
+    <div class="legenda">
+      <span class="leg"><i class="l-dir"></i> Direttore d'area</span>
+      <span class="leg"><i class="l-capo"></i> Capo reparto</span>
+      <span class="leg"><i class="l-op"></i> Agente operativo</span>
+      <span class="leg"><i class="l-line"></i> Chi può chiamare chi</span>
+    </div>
+
+    <p class="rete-nota">Ogni area ha un direttore che decide, dei capi che coordinano e degli operativi
+      che eseguono un compito solo. Tutti depositano al centro, sulla plancia, il quadro comune da cui
+      si vede a colpo d'occhio chi ha lavorato e cosa è rimasto in sospeso.</p>
+  </div>
+</section>
+
+<section class="rep-section">
+  <div class="sec-head"><h2>I reparti <em>che affianca</em></h2><p>Dove entra nel lavoro</p></div>
+  <div class="rep-grid">
+
+    <div class="card-tile rep-card">
+      <div class="rep-icon">📬</div>
+      <div class="rep-name">Segreteria</div>
+      <div class="rep-count">13 agenti</div>
+      <div class="rep-desc">Tiene la posta sotto controllo: cosa aspetta davvero una risposta, cosa è solo
+        rumore e cosa è rimasto indietro. Prepara le bozze, non le manda.</div>
+    </div>
+
+    <div class="card-tile rep-card">
+      <div class="rep-icon">💰</div>
+      <div class="rep-name">Commerciale</div>
+      <div class="rep-count">17 agenti</div>
+      <div class="rep-desc">Affianca la preparazione delle proposte economiche: dalla richiesta del cliente
+        al documento pronto perché una persona lo riveda e lo mandi.</div>
+    </div>
+
+    <div class="card-tile rep-card">
+      <div class="rep-icon">🎪</div>
+      <div class="rep-name">Produzione</div>
+      <div class="rep-count">25 agenti</div>
+      <div class="rep-desc">Segue gli eventi confermati fino al giorno stesso: cosa manca ancora, chi serve
+        in squadra e come ci si arriva quando si lavora fuori città.</div>
+    </div>
+
+    <div class="card-tile rep-card">
+      <div class="rep-icon">🔭</div>
+      <div class="rep-name">Controllo scadenze</div>
+      <div class="rep-count">11 agenti</div>
+      <div class="rep-desc">Sorveglia il tempo: cosa è fermo da troppo, chi non ha mai risposto, cosa
+        doveva essere archiviato e non lo è. Di notte rilegge anche il sistema stesso.</div>
+    </div>
+
+    <div class="card-tile rep-card">
+      <div class="rep-icon">🗂️</div>
+      <div class="rep-name">Documenti</div>
+      <div class="rep-count">9 agenti</div>
+      <div class="rep-desc">Il punto unico da cui il sistema legge e scrive i documenti aziendali. Nessun
+        altro reparto ci mette le mani da solo.</div>
+    </div>
+
+    <div class="card-tile rep-card">
+      <div class="rep-icon">📊</div>
+      <div class="rep-name">Plancia</div>
+      <div class="rep-count">il quadro comune</div>
+      <div class="rep-desc">Una pagina web dove ogni reparto lascia il suo riepilogo, e dove chi lavora
+        trova quello che gli serve senza dover chiedere a nessuno.</div>
+    </div>
+
+  </div>
+</section>
+
+<section class="split-section">
+  <div class="sec-head"><h2>Non tutto ha bisogno <em>di intelligenza artificiale</em></h2><p>La scelta che tiene giù i costi</p></div>
+  <div class="split-wrap">
+
+    <div class="split-box">
+      <h3>Dove serve un giudizio</h3>
+      <div class="sub">Agenti AI</div>
+      <p>Capire se una mail aspetta davvero una risposta, scegliere cosa proporre a un cliente, scrivere
+        un documento di lavoro, distinguere una pratica ferma da una solo registrata male. Tutte cose che
+        richiedono di leggere il contesto e pesarlo.</p>
+    </div>
+
+    <div class="split-box">
+      <h3>Dove serve solo precisione</h3>
+      <div class="sub">Script deterministici, zero AI</div>
+      <p>Tenere allineati i dati fra un sistema e l'altro, aggiornare quadri e tabelle, archiviare una
+        pratica ricorrente nella cartella giusta. Qui l'intelligenza non serve: serve che faccia sempre
+        la stessa cosa, che sia verificabile e che non costi niente girare.</p>
+    </div>
+
+  </div>
+</section>
+
+<section class="arch">
+  <div class="arch-wrap">
+    <div class="sec-head"><h2>Le regole che lo <em>tengono in piedi</em></h2><p>Architettura</p></div>
+
+    <div class="principio">
+      <div class="n">01</div>
+      <div>
+        <h3>Un solo agente può scrivere su ogni sistema</h3>
+        <p>Su ogni sistema esterno esiste un unico agente autorizzato a scrivere, e tutti gli altri devono
+          passare da lui. Se qualcosa viene scritto male, c'è un solo posto dove guardare.</p>
+      </div>
+    </div>
+
+    <div class="principio">
+      <div class="n">02</div>
+      <div>
+        <h3>Niente parte senza un sì</h3>
+        <p>Le email non vengono mai inviate: restano in bozza. Le scritture seguono un flusso
+          proponi–conferma. Il sistema prepara, la persona decide. Un agente che manda messaggi da solo è
+          un agente di cui smetti di fidarti al primo errore.</p>
+      </div>
+    </div>
+
+    <div class="principio">
+      <div class="n">03</div>
+      <div>
+        <h3>Ogni routine gira isolata</h3>
+        <p>Ogni processo automatico parte con un'utenza di sistema separata, con i suoi permessi e il suo
+          spazio. Un reparto non può leggere quello di un altro: se uno viene compromesso, non si porta
+          dietro il resto.</p>
+      </div>
+    </div>
+
+    <div class="principio">
+      <div class="n">04</div>
+      <div>
+        <h3>Le credenziali non stanno in chiaro</h3>
+        <p>Niente file di configurazione con dentro le password. Le credenziali vivono cifrate in un
+          archivio dedicato, con una chiave diversa per ogni servizio, e vengono decifrate solo nel
+          momento in cui servono.</p>
+      </div>
+    </div>
+
+    <div class="principio">
+      <div class="n">05</div>
+      <div>
+        <h3>Funziona a computer spento</h3>
+        <p>Tutto gira su un server, non sul portatile di qualcuno. Le routine partono da sole la mattina
+          presto: quando si apre la posta, il lavoro di preparazione è già fatto.</p>
+      </div>
+    </div>
+
+    <div class="principio">
+      <div class="n">06</div>
+      <div>
+        <h3>Il sistema si controlla da solo</h3>
+        <p>Ogni notte un reparto rilegge a campione il codice degli altri e ne verifica la sicurezza, e
+          propone correzioni senza applicarne nessuna. Un consumo o un carico fuori scala si vedono prima
+          che diventino un problema.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="nums">
+  <div class="nums-grid">
+    <div class="num"><strong>75</strong><span>agenti specializzati<br>in 5 aree</span></div>
+    <div class="num"><strong>3</strong><span>livelli di gerarchia<br>direttore, capo, operativo</span></div>
+    <div class="num"><strong>22</strong><span>routine automatiche<br>ogni giorno</span></div>
+    <div class="num"><strong>0</strong><span>messaggi inviati<br>senza approvazione</span></div>
+  </div>
+  <div class="nota">
+    <p>Il sistema è in funzione su un'azienda reale di team building. Per riservatezza non sono riportati
+      dati dei clienti, politiche commerciali, nomi delle persone né dettagli dell'infrastruttura:
+      quello che vedi è l'architettura, non il contenuto.</p>
+  </div>
+</section>
+
+<section class="contact">
+  <h2>La tua azienda perde pezzi <em>nelle giunzioni?</em></h2>
+  <p>Se ti ci ritrovi — mail che si perdono, pratiche ferme, documenti compilati a metà — raccontami
+     com'è fatto oggi il tuo giro. Ti dico se ha senso automatizzarlo, da dove partirei e cosa serve
+     davvero: spesso la prima risposta è che basta molta meno intelligenza artificiale di quanto sembri.</p>
+  <div class="c-links">
+    <a class="c-btn btn-gold" href="https://www.linkedin.com/in/giorgio-griffani-6590bb209/" target="_blank" rel="noopener">Scrivimi su LinkedIn</a>
+    <a class="c-btn btn-out" href="/consulente-ai/">Come lavoro sugli agenti AI</a>
+  </div>
+</section>
+
+<footer class="site-footer">© 2026 Giorgio Griffani · Roma</footer>
+
+<div id="gg-tooltip">Parla con Giorgio 🦊</div>
+<button id="gg-chat-btn" aria-label="Apri chat con Giorgio">🦊</button>
+<div id="gg-chat-popup">
+  <iframe id="gg-iframe" src="" data-src="https://thefox-1fi.pages.dev/"
+    allow="clipboard-write" loading="lazy" title="Parla con Giorgio"></iframe>
+</div>
+<script src="/assets/fox-widget.js"></script>
+</body>
+</html>
